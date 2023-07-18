@@ -1,34 +1,39 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { RobotData } from "../../State/features/RobotSlice";
 
 const Home = () => {
-  // Create an array of products (in this case, the same product is repeated 6 times)
-  const products = Array.from({ length: 6 }, (_, index) => index);
+  const dispatch = useDispatch();
+  const { robotData } = useSelector((state) => state.robots);
+
+  useEffect(() => {
+    dispatch(RobotData());
+  }, []); // Empty dependency array ensures useEffect runs only once on component mount
 
   return (
     <div className="grid grid-cols-3 gap-4 bg-black min-h-fit">
-      {products.map((product, index) => (
+      {robotData?.map((robot) => (
         <div
-          key={index}
-          className="
-          max-w-sm  border-x-8 border-gray-200 rounded-3xl  dark:bg-white-800 dark:border-gray-700 text-white mt-2 ml-2 mb-2"
+          key={robot.Id}
+          className="max-w-sm border-x-8 border-gray-200 rounded-3xl dark:bg-white-800 dark:border-gray-700 text-white mt-2 ml-2 mb-2"
         >
           <a href="#">
             <img
-              className="rounded-t-lg mt-2 p-4 "
-              src="https://cdn.dribbble.com/userupload/5604280/file/original-2c47df1b9de0c5e3c67e38c0f2b43b76.jpg?crop=0x0-1080x810"
+              key={robot.Id} // Add the unique "Id" property as the key
+              className="rounded-t-lg mt-2 p-4"
+              src={`http://localhost:7584/images/${robot.imagePath}`}
               alt="robot"
             />
           </a>
           <div className="p-5">
             <a href="#">
               <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-                RoBoTics 2023
+                {robot.robotName}
               </h5>
             </a>
             <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
-              Here are the biggest enterprise technology acquisitions of 2021 so
-              far, in reverse chronological order.
+              {robot.robotFeatures}
             </p>
             <Link
               to="/view"

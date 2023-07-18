@@ -52,7 +52,7 @@ const List = () => {
   // Pagination
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-  //Search Pagination
+  // Search Pagination
   const currentProducts = searchQuery ? filteredProducts : products;
   const currentProductsPage = currentProducts.slice(
     indexOfFirstProduct,
@@ -75,9 +75,13 @@ const List = () => {
     setSortType(sortType === "asc" ? "desc" : "asc");
     setFilteredProducts(sortedProducts);
   };
-  const editHandler = (item) => {
-    dispatch(setSelectedBlog(item));
-    navigate("/admin/addproduct");
+
+  const editHandler = (id) => {
+    const selectedProduct = currentProducts.find(
+      (product) => product.id === id
+    );
+    dispatch(setSelectedBlog(selectedProduct));
+    navigate("/addRobot");
   };
 
   return (
@@ -132,7 +136,7 @@ const List = () => {
                 <td className="px-2 py-2">
                   <button
                     className="bg-green-900 hover:bg-green-500 text-white font-bold py-2 px-4 rounded"
-                    onClick={editHandler}
+                    onClick={() => editHandler(product.id)}
                   >
                     Edit
                   </button>
