@@ -1,9 +1,17 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { GetRobotApi } from "../../State/features/RobotSlice";
+
 
 const Home = () => {
   // Create an array of products (in this case, the same product is repeated 6 times)
   const products = Array.from({ length: 6 }, (_, index) => index);
+  const dispatch = useDispatch();
+
+  useEffect(()=>{
+    dispatch(GetRobotApi());
+  },[]);
 
   return (
     <div className="grid grid-cols-3 gap-4 bg-black min-h-fit">
@@ -16,7 +24,7 @@ const Home = () => {
           <a href="#">
             <img
               className="rounded-t-lg mt-2 p-4 "
-              src="https://cdn.dribbble.com/userupload/5604280/file/original-2c47df1b9de0c5e3c67e38c0f2b43b76.jpg?crop=0x0-1080x810"
+              src="https://img.freepik.com/premium-photo/future-insurance-aipowered-robots-action_899027-4916.jpg"
               alt="robot"
             />
           </a>
