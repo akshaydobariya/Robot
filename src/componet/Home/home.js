@@ -21,7 +21,7 @@ const Home = () => {
           <a href="#">
             <img
               key={robot.Id} // Add the unique "Id" property as the key
-              className="rounded-t-lg mt-2 p-4"
+              className="rounded-t-lg mt-2 p-4 h-3/5"
               src={`http://localhost:7584/images/${robot.imagePath}`}
               alt="robot"
             />

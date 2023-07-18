@@ -34,6 +34,7 @@ export const RobotData = createAsyncThunk("RobotData", async () => {
   } catch (error) {
     if (error.response) {
       const { StatusCode, Message } = error.response.data;
+      console.log(error.response.data);
       throw new Error(`Robot data failed: ${StatusCode} - ${Message}`);
     } else {
       throw new Error("Robot data failed: Network error");
