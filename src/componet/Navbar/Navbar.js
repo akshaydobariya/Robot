@@ -1,7 +1,15 @@
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { logout } from "../../State/features/LoginSlice";
+
 
 const Navbar = () => {
+  const {accessToken} = useSelector((state)=>state.login);
+  const dispatch=useDispatch();
+ const  logoutHander=()=>{
+      dispatch(logout());
+  }
   return (
     <>
       <div className="sticky top-0 z-10">
@@ -17,18 +25,29 @@ const Navbar = () => {
             </span>
           </a>
           <div className="flex items-center lg:order-2">
-            <Link
-              to="/login"
-              className="block py-2 pl-3 pr-4 text-white border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-purple-700 lg:p-0 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700 mr-3"
-            >
-              Login
-            </Link>
-            <Link
-              to="/register"
-              className="block py-2 pl-3 pr-4 text-white border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-purple-700 lg:p-0 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700"
-            >
-              Register
-            </Link>
+          {accessToken === null ? (
+              <>
+                <Link
+                  to="/login"
+                  className="block py-2 pl-3 pr-4 text-white font-semibold border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-purple-700 lg:p-0 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700 mr-3"
+                >
+                  Login
+                </Link>
+                <Link
+                  to="/register"
+                  className="block py-2 pl-3 pr-4 font-semibold text-white border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-purple-700 lg:p-0 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700"
+                >
+                  Register
+                </Link>
+              </>
+            ) : (
+              <button
+                onClick={logoutHander}
+                className="block py-2 pl-3 pr-4 text-white font-semibold border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-purple-700 lg:p-0 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700 ml-3"
+              >
+                Log Out
+              </button>
+            )}
             <button
               data-collapse-toggle="mobile-menu-2"
               type="button"

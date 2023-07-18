@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
+
 const API_BASE_URL = "http://localhost:7584/api";
 
 export const registerUser = createAsyncThunk("user/register", async (data) => {
@@ -45,7 +46,11 @@ export const loginSlice = createSlice({
     errorMessage: "",
     accessToken: null,
   },
-
+reducers:{
+  logout:(state)=>{
+  state.accessToken=null;
+}
+},
   extraReducers: (builder) => {
     builder
       .addCase(registerUser.pending, (state) => {
@@ -83,4 +88,5 @@ export const loginSlice = createSlice({
   },
 });
 
+export const {logout}=loginSlice.actions;
 export default loginSlice.reducer;

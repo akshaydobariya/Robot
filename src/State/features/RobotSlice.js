@@ -23,6 +23,7 @@ export const addRobotApi = createAsyncThunk("robot/addRobot", async (data) => {
   }
 });
 
+
 export const fetchRobotData = createAsyncThunk(
   "robot/fetchRobotData",
   async () => {
@@ -39,9 +40,7 @@ export const fetchRobotData = createAsyncThunk(
       } else {
         throw new Error("Robot data failed: Network error");
       }
-    }
-  }
-);
+
 
 const robotSlice = createSlice({
   name: "robot",
