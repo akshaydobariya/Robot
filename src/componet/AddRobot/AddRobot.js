@@ -48,10 +48,11 @@ const AddRobot = () => {
     if (selectedBlog) {
       setValues({
         Id: selectedBlog.id,
-        robotName: selectedBlog.name,
+        robotName: selectedBlog.robotName,
         ownerName: selectedBlog.ownerName,
-        quantity: selectedBlog.quantity,
-        category: selectedBlog.category,
+        robotFeature: selectedBlog.robotFeatures,
+        location: selectedBlog.location,
+        version: selectedBlog.firmwareVersion,
       });
     }
   }, [selectedBlog, setValues]);

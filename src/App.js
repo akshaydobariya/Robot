@@ -30,7 +30,7 @@ export const appRouter = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: "/view",
+        path: "/view/:id",
         element: <View />,
       },
       {
