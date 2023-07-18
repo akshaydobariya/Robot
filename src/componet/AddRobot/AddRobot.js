@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 import { addRobotValidationSchema } from "../../validation/validation";
-import { AddRobotApi } from "../../State/features/RobotSlice";
+import { addRobotApi } from "../../State/features/RobotSlice";
 
 const AddRobot = () => {
   const dispatch = useDispatch();
@@ -38,7 +38,7 @@ const AddRobot = () => {
         formData.append("RobotFeatures", values.robotFeature);
         formData.append("Location", values.location);
         formData.append("FirmwareVersion", values.version);
-        dispatch(AddRobotApi({ formData, accessToken }));
+        dispatch(addRobotApi({ formData, accessToken }));
       } else {
       }
     },
