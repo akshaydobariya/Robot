@@ -48,7 +48,7 @@ export const RobotSlice = createSlice({
     });
     builder.addCase(AddRobotApi.fulfilled, (state, action) => {
       state.isLoading = false;
-      state.robotData = action.payload;
+      // state.robotData = action.payload;
     });
     builder.addCase(AddRobotApi.rejected, (state, action) => {
       state.isLoading = false;
