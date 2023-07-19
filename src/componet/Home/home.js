@@ -1,15 +1,17 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { RobotData } from "../../State/features/RobotSlice";
+import { fetchRobotData } from "../../State/features/RobotSlice";
 
 const Home = () => {
   const dispatch = useDispatch();
   const { robotData } = useSelector((state) => state.robots);
 
   useEffect(() => {
-    dispatch(RobotData());
-  }, []);
+
+    dispatch(fetchRobotData());
+  }, []); // Empty dependency array ensures useEffect runs only once on component mount
+
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 bg-black min-h-fit">
