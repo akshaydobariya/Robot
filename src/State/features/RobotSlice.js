@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import { useSelector } from "react-redux";
 
 export const AddRobotApi = createAsyncThunk("AddRobot", async (data) => {
   console.log(data.accessToken);
@@ -26,25 +25,29 @@ export const AddRobotApi = createAsyncThunk("AddRobot", async (data) => {
   }
 });
 
-export const GetRobotApi = createAsyncThunk("GetRobot",async()=>{
-  const response = await axios.get(
-    `http://localhost:7584/api/Robot/getAllRobots`
-  );
-  console.log(response.data);
-});
 
-export const UpdateRobot = createAsyncThunk("updateRobot",async()=>{
-  const response  = await axios.put(
-    `http://localhost:7584/api/Robot/updateRobot/{id}`,
-  );
-  console.log(response.data);
+export const RobotData = createAsyncThunk("RobotData", async () => {
+  try {
+    const response = await axios.get(
+      `http://localhost:7584/api/Robot/getAllRobots`
+    );
+    return response.data;
+  } catch (error) {
+    if (error.response) {
+      const { StatusCode, Message } = error.response.data;
+      console.log(error.response.data);
+      throw new Error(`Robot data failed: ${StatusCode} - ${Message}`);
+    } else {
+      throw new Error("Robot data failed: Network error");
+    }
+  }
 });
 
 export const RobotSlice = createSlice({
   name: "RobotSlice",
   initialState: {
     isLoading: false,
-    robotData: {},
+    robotData: null,
     isError: false,
     selectedBlog: null,
   },
@@ -62,22 +65,26 @@ export const RobotSlice = createSlice({
     });
     builder.addCase(AddRobotApi.fulfilled, (state, action) => {
       state.isLoading = false;
-      // state.robotData = action.payload;
+
+      //state.robotData = action.payload;
+
     });
     builder.addCase(AddRobotApi.rejected, (state, action) => {
       state.isLoading = false;
       state.isError = true;
     });
-    builder.addCase(GetRobotApi.pending, (state) => {
+    builder.addCase(RobotData.pending, (state) => {
       state.isLoading = true;
     });
-    builder.addCase(GetRobotApi.rejected, (state, action) =>{
+    builder.addCase(RobotData.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.robotData = action.payload;
+    });
+    builder.addCase(RobotData.rejected, (state, action) => {
       state.isLoading = false;
       state.isError = true;
     });
-    builder.addCase(GetRobotApi.fulfilled,(state,action) =>{
-      state.isLoading = false;
-    });
+
   },
 });
 export const { setSelectedBlog, clearSelectedBlog } = RobotSlice.actions;

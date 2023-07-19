@@ -1,6 +1,8 @@
 import React from "react";
+import { useParams } from "react-router-dom";
 
 const View = () => {
+  const { resId } = useParams();
   return (
     <div className="bg-black text-white min-h-screen flex items-center justify-center">
       <div className="container mx-auto px-4 py-8">

@@ -1,45 +1,42 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { GetRobotApi } from "../../State/features/RobotSlice";
-
+import { RobotData } from "../../State/features/RobotSlice";
 
 const Home = () => {
-  // Create an array of products (in this case, the same product is repeated 6 times)
-  const products = Array.from({ length: 6 }, (_, index) => index);
   const dispatch = useDispatch();
+  const { robotData } = useSelector((state) => state.robots);
 
-  useEffect(()=>{
-    dispatch(GetRobotApi());
-  },[]);
+  useEffect(() => {
+    dispatch(RobotData());
+  }, []);
 
   return (
-    <div className="grid grid-cols-3 gap-4 bg-black min-h-fit">
-      {products.map((product, index) => (
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 bg-black min-h-fit">
+      {robotData?.map((robot) => (
         <div
-          key={index}
-          className="
-          max-w-sm  border-x-8 border-gray-200 rounded-3xl  dark:bg-white-800 dark:border-gray-700 text-white mt-2 ml-2 mb-2"
+          key={robot.Id}
+          className="max-w-sm border-x-8 border-gray-200 rounded-3xl dark:bg-white-800 dark:border-gray-700 text-white mt-2 ml-2 mb-2"
         >
           <a href="#">
             <img
-              className="rounded-t-lg mt-2 p-4 "
-              src="https://img.freepik.com/premium-photo/future-insurance-aipowered-robots-action_899027-4916.jpg"
+              key={robot.Id}
+              className="rounded-t-lg mt-2 p-4 h-3/5 sm:h-80"
+              src={`http://localhost:7584/images/${robot.imagePath}`}
               alt="robot"
             />
           </a>
           <div className="p-5">
             <a href="#">
               <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
-                RoBoTics 2023
+                {robot.robotName}
               </h5>
             </a>
             <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
-              Here are the biggest enterprise technology acquisitions of 2021 so
-              far, in reverse chronological order.
+              {robot.robotFeatures}
             </p>
             <Link
-              to="/view"
+              to={"/view/" + robot.id}
               className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
             >
               Read more

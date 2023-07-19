@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { registerUser } from "../../State/features/LoginSlice";
 import { registerValidationSchema } from "../../validation/validation";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const Register = () => {
   const nevigate = useNavigate();
@@ -202,13 +203,13 @@ const Register = () => {
               </button>
 
               <p className="mb-0 mt-2 pt-1 text-sm font-semibold">
-                Don't have an account?
-                <a
-                  href="#!"
+                Already have an account?
+                <Link
+                  to="/login"
                   className="text-danger transition duration-150 ease-in-out hover:text-danger-600 focus:text-danger-600 active:text-danger-700"
                 >
-                  Register
-                </a>
+                  Login
+                </Link>
               </p>
             </div>
           </form>

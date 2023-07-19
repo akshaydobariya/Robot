@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { setSelectedBlog } from "../../State/features/RobotSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const List = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -11,40 +11,14 @@ const List = () => {
   const [sortType, setSortType] = useState("asc");
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  const products = [
-    {
-      id: 1,
-      name: "Ro1",
-      image:
-        "https://cdn.dribbble.com/userupload/5604280/file/original-2c47df1b9de0c5e3c67e38c0f2b43b76.jpg?crop=0x0-1080x810",
-    },
-    {
-      id: 2,
-      name: "bot2",
-      image:
-        "https://cdn.dribbble.com/userupload/5604280/file/original-2c47df1b9de0c5e3c67e38c0f2b43b76.jpg?crop=0x0-1080x810",
-    },
-    {
-      id: 3,
-      name: "ot3",
-      image:
-        "https://cdn.dribbble.com/userupload/5604280/file/original-2c47df1b9de0c5e3c67e38c0f2b43b76.jpg?crop=0x0-1080x810",
-    },
-    {
-      id: 4,
-      name: "Robot4",
-      image:
-        "https://cdn.dribbble.com/userupload/5604280/file/original-2c47df1b9de0c5e3c67e38c0f2b43b76.jpg?crop=0x0-1080x810",
-    },
-  ];
-
+  const { robotData } = useSelector((state) => state.robots);
+  const products = robotData;
   // Search products based on the query
   const handleSearch = (event) => {
     const query = event.target.value.toLowerCase();
     setSearchQuery(query);
     const filtered = products.filter((product) =>
-      product.name.toLowerCase().includes(query)
+      product.robotName.toLowerCase().includes(query)
     );
     setFilteredProducts(filtered);
   };
@@ -52,7 +26,7 @@ const List = () => {
   // Pagination
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-  //Search Pagination
+  // Search Pagination
   const currentProducts = searchQuery ? filteredProducts : products;
   const currentProductsPage = currentProducts.slice(
     indexOfFirstProduct,
@@ -75,9 +49,13 @@ const List = () => {
     setSortType(sortType === "asc" ? "desc" : "asc");
     setFilteredProducts(sortedProducts);
   };
-  const editHandler = (item) => {
-    dispatch(setSelectedBlog(item));
-    navigate("/admin/addproduct");
+
+  const editHandler = (id) => {
+    const selectedProduct = currentProducts.find(
+      (product) => product.id === id
+    );
+    dispatch(setSelectedBlog(selectedProduct));
+    navigate("/addRobot");
   };
 
   return (
@@ -127,12 +105,12 @@ const List = () => {
                   {index + 1 + (currentPage - 1) * productsPerPage}
                 </td>
                 <td className="px-2 py-2  text-white text-lg">
-                  {product.name}
+                  {product.robotName}
                 </td>
                 <td className="px-2 py-2">
                   <button
                     className="bg-green-900 hover:bg-green-500 text-white font-bold py-2 px-4 rounded"
-                    onClick={editHandler}
+                    onClick={() => editHandler(product.id)}
                   >
                     Edit
                   </button>
@@ -142,7 +120,7 @@ const List = () => {
                 </td>
                 <td className="px-4 py-2">
                   <img
-                    src={product.image}
+                    src={`http://localhost:7584/images/${product.imagePath}`}
                     alt={product.name}
                     className="h-16 w-16 object-cover"
                   />

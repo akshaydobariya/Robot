@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 import { addRobotValidationSchema } from "../../validation/validation";
@@ -6,22 +6,31 @@ import { AddRobotApi } from "../../State/features/RobotSlice";
 
 const AddRobot = () => {
   const dispatch = useDispatch();
+  const { selectedBlog } = useSelector((state) => state.robots);
   const { accessToken } = useSelector((state) => state.login);
   const [selectedFile, setSelectedFile] = useState(null);
 
-  const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
-    useFormik({
-      initialValues: {
-        robotName: "",
-        ownerName: "",
-        robotFeature: "",
-        location: "",
-        version: "",
-        image: "",
-      },
-      validationSchema: addRobotValidationSchema,
-      onSubmit: async (values, action) => {
-        console.log(values);
+  const {
+    values,
+    errors,
+    touched,
+    handleBlur,
+    handleChange,
+    handleSubmit,
+    setValues,
+  } = useFormik({
+    initialValues: {
+      robotName: "",
+      ownerName: "",
+      robotFeature: "",
+      location: "",
+      version: "",
+      image: "",
+    },
+    validationSchema: addRobotValidationSchema,
+    onSubmit: async (values, action) => {
+      console.log(values);
+      if (selectedBlog == null) {
         const formData = new FormData();
         formData.append("RobotName", values.robotName);
         formData.append("image", selectedFile);
@@ -30,8 +39,23 @@ const AddRobot = () => {
         formData.append("Location", values.location);
         formData.append("FirmwareVersion", values.version);
         dispatch(AddRobotApi({ formData, accessToken }));
-      },
-    });
+      } else {
+      }
+    },
+  });
+  useEffect(() => {
+    console.log(selectedBlog);
+    if (selectedBlog) {
+      setValues({
+        Id: selectedBlog.id,
+        robotName: selectedBlog.robotName,
+        ownerName: selectedBlog.ownerName,
+        robotFeature: selectedBlog.robotFeatures,
+        location: selectedBlog.location,
+        version: selectedBlog.firmwareVersion,
+      });
+    }
+  }, [selectedBlog, setValues]);
   const handleFileChange = (event) => {
     setSelectedFile(event.target.files[0]);
   };
