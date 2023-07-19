@@ -24,6 +24,7 @@ export const addRobotApi = createAsyncThunk("robot/addRobot", async (data) => {
 });
 
 
+
 export const fetchRobotData = createAsyncThunk(
   "robot/fetchRobotData",
   async () => {
@@ -66,7 +67,6 @@ const robotSlice = createSlice({
       })
       .addCase(addRobotApi.fulfilled, (state, action) => {
         state.isLoading = false;
-
         //state.robotData = action.payload;
       })
       .addCase(addRobotApi.rejected, (state, action) => {
@@ -84,6 +84,7 @@ const robotSlice = createSlice({
         state.isLoading = false;
         state.isError = true;
       });
+
   },
 });
 

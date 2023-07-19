@@ -1,15 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { logout } from "../../State/features/LoginSlice";
 
-
 const Navbar = () => {
-  const {accessToken} = useSelector((state)=>state.login);
-  const dispatch=useDispatch();
- const  logoutHander=()=>{
-      dispatch(logout());
-  }
+  const { accessToken } = useSelector((state) => state.login);
+  const dispatch = useDispatch();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  const logoutHandler = () => {
+    dispatch(logout());
+  };
+
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+
   return (
     <>
       <div className="sticky top-0 z-10">
@@ -25,7 +31,7 @@ const Navbar = () => {
             </span>
           </a>
           <div className="flex items-center lg:order-2">
-          {accessToken === null ? (
+            {accessToken === null ? (
               <>
                 <Link
                   to="/login"
@@ -42,22 +48,22 @@ const Navbar = () => {
               </>
             ) : (
               <button
-                onClick={logoutHander}
+                onClick={logoutHandler}
                 className="block py-2 pl-3 pr-4 text-white font-semibold border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-purple-700 lg:p-0 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700 ml-3"
               >
                 Log Out
               </button>
             )}
             <button
-              data-collapse-toggle="mobile-menu-2"
+              onClick={toggleMobileMenu}
               type="button"
               className="inline-flex items-center p-2 ml-1 text-sm text-gray-500 rounded-lg lg:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
               aria-controls="mobile-menu-2"
-              aria-expanded="false"
+              aria-expanded={isMobileMenuOpen}
             >
               <span className="sr-only">Open main menu</span>
               <svg
-                className="w-6 h-6"
+                className={`w-6 h-6 ${isMobileMenuOpen ? "hidden" : ""}`}
                 fill="currentColor"
                 viewBox="0 0 20 20"
                 xmlns="http://www.w3.org/2000/svg"
@@ -69,7 +75,7 @@ const Navbar = () => {
                 ></path>
               </svg>
               <svg
-                className="hidden w-6 h-6"
+                className={`w-6 h-6 ${isMobileMenuOpen ? "" : "hidden"}`}
                 fill="currentColor"
                 viewBox="0 0 20 20"
                 xmlns="http://www.w3.org/2000/svg"
@@ -83,7 +89,9 @@ const Navbar = () => {
             </button>
           </div>
           <div
-            className="items-center justify-between hidden w-full lg:flex lg:w-auto lg:order-1"
+            className={`items-center justify-between ${
+              isMobileMenuOpen ? "" : "hidden"
+            } w-full lg:flex lg:w-auto lg:order-1`}
             id="mobile-menu-2"
           >
             <ul className="flex flex-col mt-4 font-medium lg:flex-row lg:space-x-8 lg:mt-0">
@@ -131,9 +139,6 @@ const Navbar = () => {
           </div>
         </div>
       </div>
-      {/*<div className="mt-14">
-        
-      </div>*/}
     </>
   );
 };

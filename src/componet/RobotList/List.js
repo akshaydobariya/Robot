@@ -18,7 +18,7 @@ const List = () => {
     const query = event.target.value.toLowerCase();
     setSearchQuery(query);
     const filtered = products.filter((product) =>
-      product.name.toLowerCase().includes(query)
+      product.robotName.toLowerCase().includes(query)
     );
     setFilteredProducts(filtered);
   };

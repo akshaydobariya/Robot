@@ -5,15 +5,16 @@ import { fetchRobotData } from "../../State/features/RobotSlice";
 
 const Home = () => {
   const dispatch = useDispatch();
-
   const { robotData } = useSelector((state) => state.robots);
 
   useEffect(() => {
+
     dispatch(fetchRobotData());
   }, []); // Empty dependency array ensures useEffect runs only once on component mount
 
+
   return (
-    <div className="grid grid-cols-3 gap-4 bg-black min-h-fit">
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 bg-black min-h-fit">
       {robotData?.map((robot) => (
         <div
           key={robot.Id}
@@ -21,8 +22,8 @@ const Home = () => {
         >
           <a href="#">
             <img
-              key={robot.Id} // Add the unique "Id" property as the key
-              className="rounded-t-lg mt-2 p-4 h-3/5"
+              key={robot.Id}
+              className="rounded-t-lg mt-2 p-4 h-3/5 sm:h-80"
               src={`http://localhost:7584/images/${robot.imagePath}`}
               alt="robot"
             />
