@@ -1,11 +1,20 @@
-import React from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { fetchRobotData } from "../../State/features/RobotSlice";
+import Shimmer from "../Shimmer/shimmer";
 
 const Home = () => {
-  const { robotData } = useSelector((state) => state.robots);
+  const { robotData, isLoading } = useSelector((state) => state.robots);
+  const dispatch = useDispatch();
 
-  return (
+  useEffect(() => {
+    dispatch(fetchRobotData());
+  }, []);
+
+  return isLoading ? (
+    <Shimmer />
+  ) : (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 bg-black min-h-fit">
       {robotData?.map((robot) => (
         <div
