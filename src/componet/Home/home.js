@@ -1,15 +1,9 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React from "react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { fetchRobotData } from "../../State/features/RobotSlice";
 
 const Home = () => {
-  const dispatch = useDispatch();
   const { robotData } = useSelector((state) => state.robots);
-
-  useEffect(() => {
-    dispatch(fetchRobotData());
-  }, []); // Empty dependency array ensures useEffect runs only once on component mount
 
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 bg-black min-h-fit">
@@ -21,14 +15,14 @@ const Home = () => {
           <a href="#">
             <img
               key={robot.Id}
-              className="rounded-t-lg mt-2 p-4 h-3/5 sm:h-80 w-full"
+              className="rounded-t-lg mt-2 p-4 h-3/5 sm:h-80 object-cover"
               src={`http://localhost:7584/images/${robot.imagePath}`}
               alt="robot"
             />
           </a>
           <div className="p-5">
             <a href="#">
-              <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+              <h5 className="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white">
                 {robot.robotName}
               </h5>
             </a>
