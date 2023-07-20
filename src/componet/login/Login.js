@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
 const Login = () => {
   const dispatch = useDispatch();
   const nevigate = useNavigate();
-  const { data } = useSelector((state) => state.login);
+  const { loginData } = useSelector((state) => state.login);
   const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
     useFormik({
       initialValues: { username: "", password: "" },
@@ -20,7 +20,7 @@ const Login = () => {
         );
       },
     });
-  if (data.statusCode == 200) {
+  if (loginData.statusCode == 200) {
     nevigate("/");
   }
   return (
@@ -49,11 +49,11 @@ const Login = () => {
           <h1 className="font-sans md:font-serif text-5xl mb-5">
             Welcome-Back
           </h1>
-          {data.statusCode === 400 && (
-            <p className="text-red-500">{data.message}</p>
+          {loginData.statusCode === 400 && (
+            <p className="text-red-500">{loginData.message}</p>
           )}
-          {data.statusCode === 404 && (
-            <p className="text-red-500">{data.message}</p>
+          {loginData.statusCode === 404 && (
+            <p className="text-red-500">{loginData.message}</p>
           )}
           <form
             className="sm:w-2/3 w-full px-4 lg:px-0 mx-auto"

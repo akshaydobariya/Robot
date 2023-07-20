@@ -9,7 +9,7 @@ import { Link } from "react-router-dom";
 const Register = () => {
   const nevigate = useNavigate();
   const dispatch = useDispatch();
-  const { data } = useSelector((state) => state.login);
+  const { registrationData } = useSelector((state) => state.login);
 
   const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
     useFormik({
@@ -21,11 +21,13 @@ const Register = () => {
         formData.append("Password", values.password);
         formData.append("Email", values.email);
         dispatch(registerUser(formData));
+
       },
     });
   if (data.statusCode === 200) {
     nevigate("/login");
   }
+
 
   return (
     <section className="min-h-screen flex items-stretch text-white">
@@ -51,8 +53,8 @@ const Register = () => {
         </div>
         <div className="w-full py-6 z-20">
           <h1 className="font-sans md:font-serif text-5xl mb-5">Welcome</h1>
-          {data.statusCode === 400 && (
-            <p className="text-red-500">{data.message}</p>
+          {registrationData.statusCode === 400 && (
+            <p className="text-red-500">{registrationData.message}</p>
           )}
           <form
             className="sm:w-2/3 w-full px-4 lg:px-0 mx-auto"
