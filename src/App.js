@@ -9,6 +9,7 @@ import AddRobot from "./componet/AddRobot/AddRobot";
 import Home from "./componet/Home/home";
 import View from "./componet/View/View";
 import List from "./componet/RobotList/List";
+import Shimmer from "./componet/Shimmer/shimmer";
 
 const App = () => {
   return (
@@ -41,6 +42,10 @@ export const appRouter = createBrowserRouter([
         path: "/addRobot",
         element: <AddRobot />,
       },
+      {
+        path:"/shimmer",
+        element: <Shimmer/>
+      }
     ],
   },
   {
