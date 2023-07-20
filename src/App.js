@@ -1,6 +1,6 @@
 import { Outlet, createBrowserRouter } from "react-router-dom";
 import "./App.css";
-import React from "react";
+import React, { useEffect } from "react";
 import Footer from "./componet/Footer/Footer";
 import Navbar from "./componet/Navbar/Navbar";
 import Login from "./componet/login/Login";
@@ -9,8 +9,14 @@ import AddRobot from "./componet/AddRobot/AddRobot";
 import Home from "./componet/Home/home";
 import View from "./componet/View/View";
 import List from "./componet/RobotList/List";
+import { fetchRobotData } from "./State/features/RobotSlice";
+import { useDispatch } from "react-redux";
 
 const App = () => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchRobotData());
+  }, []);
   return (
     <>
       <Navbar />

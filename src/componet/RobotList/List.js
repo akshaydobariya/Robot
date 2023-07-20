@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { setSelectedBlog } from "../../State/features/RobotSlice";
+import {
+  deleteRobotApi,
+  setSelectedBlog,
+} from "../../State/features/RobotSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { Edit2, Trash } from "feather-icons-react";
 import { fetchRobotData } from "../../State/features/RobotSlice";
+import Swal from "sweetalert2";
 
 const List = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -14,11 +18,35 @@ const List = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { robotData } = useSelector((state) => state.robots);
+  const { accessToken } = useSelector((state) => state.login);
   const products = robotData;
-
+  const displaySuccessAlert = (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+      background: "#000",
+      color: "#FFFFFF",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        dispatch(deleteRobotApi({ id, accessToken }));
+        Swal.fire({
+          title: "Deleted!",
+          text: "Your file has been deleted.",
+          icon: "success",
+          background: "#000",
+          color: "#fff",
+        });
+      }
+    });
+  };
   useEffect(() => {
     dispatch(fetchRobotData());
-  }, []);
+  }, [robotData]);
 
   const handleSearch = (event) => {
     const query = event.target.value.toLowerCase();
@@ -45,7 +73,9 @@ const List = () => {
     const sortedProducts = [...currentProducts].sort((a, b) => {
       const nameA = a.robotName.toLowerCase();
       const nameB = b.robotName.toLowerCase();
-      return sortType === "asc" ? nameA.localeCompare(nameB) : nameB.localeCompare(nameA);
+      return sortType === "asc"
+        ? nameA.localeCompare(nameB)
+        : nameB.localeCompare(nameA);
     });
     setFilteredProducts(sortedProducts);
     setSortType(sortType === "asc" ? "desc" : "asc");
@@ -133,7 +163,7 @@ const List = () => {
                   </button>
                   <button
                     className="bg-red-900 hover:bg-red-500 text-white font-bold py-2 px-4 rounded"
-                    // Add a function to handle product deletion here
+                    onClick={() => displaySuccessAlert(product.id)}
                   >
                     <Trash className="h-5 w-5" />
                   </button>

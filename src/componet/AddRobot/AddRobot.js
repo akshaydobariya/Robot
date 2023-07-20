@@ -3,10 +3,11 @@ import { useFormik } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 import { addRobotValidationSchema } from "../../validation/validation";
 import { addRobotApi } from "../../State/features/RobotSlice";
+import Swal from "sweetalert2";
 
 const AddRobot = () => {
   const dispatch = useDispatch();
-  const { selectedBlog } = useSelector((state) => state.robots);
+  const { selectedBlog, addRobot } = useSelector((state) => state.robots);
   const { accessToken } = useSelector((state) => state.login);
   const [selectedFile, setSelectedFile] = useState(null);
 
@@ -29,7 +30,6 @@ const AddRobot = () => {
     },
     validationSchema: addRobotValidationSchema,
     onSubmit: async (values, action) => {
-      console.log(values);
       if (selectedBlog == null) {
         const formData = new FormData();
         formData.append("RobotName", values.robotName);
@@ -39,12 +39,14 @@ const AddRobot = () => {
         formData.append("Location", values.location);
         formData.append("FirmwareVersion", values.version);
         dispatch(addRobotApi({ formData, accessToken }));
+        if (addRobot == "Robot Added Successfully") {
+          action.resetForm();
+        }
       } else {
       }
     },
   });
   useEffect(() => {
-    console.log(selectedBlog);
     if (selectedBlog) {
       setValues({
         Id: selectedBlog.id,
@@ -59,6 +61,25 @@ const AddRobot = () => {
   const handleFileChange = (event) => {
     setSelectedFile(event.target.files[0]);
   };
+
+  const displaySuccessAlert = () => {
+    Swal.fire({
+      position: "center",
+      icon: "success",
+      title: "Your work has been saved",
+      showConfirmButton: false,
+      timer: 1500,
+      background: "#000", // Apply custom styles to the alert
+      color: "#fff",
+    });
+  };
+
+  useEffect(() => {
+    console.log(addRobot);
+    if (addRobot == "Robot Added Successfully") {
+      displaySuccessAlert();
+    }
+  }, [addRobot]);
   return (
     <div className="flex justify-center items-center bg-black">
       <div className="w-full max-w-xl">

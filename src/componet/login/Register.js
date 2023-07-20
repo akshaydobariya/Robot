@@ -21,12 +21,11 @@ const Register = () => {
         formData.append("Password", values.password);
         formData.append("Email", values.email);
         dispatch(registerUser(formData));
-        if (data.statusCode === 200) {
-          nevigate("/login");
-        }
-        console.log(data.statusCode);
       },
     });
+  if (data.statusCode === 200) {
+    nevigate("/login");
+  }
 
   return (
     <section className="min-h-screen flex items-stretch text-white">
@@ -118,9 +117,7 @@ const Register = () => {
             <div className="relative mb-6" data-te-input-wrapper-init>
               <input
                 type="text"
-
                 className="peer block min-h-[auto] w-full rounded border-0 bg-white-100/50 text-black px-3 py-[0.32rem] leading-[2.15] outline-none "
-
                 id="exampleFormControlInput3"
                 placeholder="Enter Username"
                 name="username"
