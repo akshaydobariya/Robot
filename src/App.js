@@ -9,8 +9,8 @@ import AddRobot from "./componet/AddRobot/AddRobot";
 import Home from "./componet/Home/home";
 import View from "./componet/View/View";
 import List from "./componet/RobotList/List";
-import { fetchRobotData } from "./State/features/RobotSlice";
-import { useDispatch } from "react-redux";
+import Shimmer from "./componet/Shimmer/shimmer";
+
 
 const App = () => {
   const dispatch = useDispatch();
@@ -47,6 +47,10 @@ export const appRouter = createBrowserRouter([
         path: "/addRobot",
         element: <AddRobot />,
       },
+      {
+        path:"/shimmer",
+        element: <Shimmer/>
+      }
     ],
   },
   {
