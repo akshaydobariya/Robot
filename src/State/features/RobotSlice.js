@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
-import axios from "axios";
+import axios, { Axios } from "axios";
 
 export const addRobotApi = createAsyncThunk("robot/addRobot", async (data) => {
   try {
@@ -79,11 +79,39 @@ export const deleteRobotApi = createAsyncThunk(
     }
   }
 );
+
+export const updateRobot = createAsyncThunk(
+  "robot/updateRobot",
+  async (data) => {
+    try {
+      const response = await axios.put(
+        "http://localhost:7584/api/Robot/updateRobot",
+        data.formData,
+        {
+          headers: {
+            Authorization: `Bearer ${data.accessToken}`,
+          },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      if (error.response) {
+        // Handle error response from the server
+        const { StatusCode, Message } = error.response.data;
+        throw new Error(`Robot update failed: ${StatusCode} - ${Message}`);
+      } else {
+        // Handle network error
+        throw new Error("Robot update failed: Network error");
+      }
+    }
+  }
+);
 const robotSlice = createSlice({
   name: "robot",
 
   initialState: {
     isLoading: false,
+    addRobotdata: null,
     addRobot: null,
     deleteRobot: null,
     robotData: null,
@@ -144,6 +172,17 @@ const robotSlice = createSlice({
         state.deleteRobot = action.payload;
       })
       .addCase(deleteRobotApi.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+      })
+      .addCase(updateRobot.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(updateRobot.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.robot = action.payload;
+      })
+      .addCase(updateRobot.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
       });

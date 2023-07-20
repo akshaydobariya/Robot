@@ -11,12 +11,7 @@ import View from "./componet/View/View";
 import List from "./componet/RobotList/List";
 import Shimmer from "./componet/Shimmer/shimmer";
 
-
 const App = () => {
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(fetchRobotData());
-  }, []);
   return (
     <>
       <Navbar />
@@ -48,9 +43,9 @@ export const appRouter = createBrowserRouter([
         element: <AddRobot />,
       },
       {
-        path:"/shimmer",
-        element: <Shimmer/>
-      }
+        path: "/shimmer",
+        element: <Shimmer />,
+      },
     ],
   },
   {
