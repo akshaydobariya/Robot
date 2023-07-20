@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { setSelectedBlog } from "../../State/features/RobotSlice";
+import {
+  deleteRobotApi,
+  setSelectedBlog,
+} from "../../State/features/RobotSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { Edit2 } from "feather-icons-react";
 import { Trash } from "feather-icons-react";
 import { fetchRobotData } from "../../State/features/RobotSlice";
+import Swal from "sweetalert2";
 
 const List = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -16,11 +20,35 @@ const List = () => {
   const navigate = useNavigate();
   const [sortBy, setSortBy] = useState("id");
   const { robotData } = useSelector((state) => state.robots);
+  const { accessToken } = useSelector((state) => state.login);
   const products = robotData;
-
+  const displaySuccessAlert = (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+      background: "#000",
+      color: "#FFFFFF",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        dispatch(deleteRobotApi({ id, accessToken }));
+        Swal.fire({
+          title: "Deleted!",
+          text: "Your file has been deleted.",
+          icon: "success",
+          background: "#000",
+          color: "#fff",
+        });
+      }
+    });
+  };
   useEffect(() => {
     dispatch(fetchRobotData());
-  }, []);
+  }, [robotData]);
 
   const handleSearch = (event) => {
     const query = event.target.value.toLowerCase();
@@ -42,6 +70,7 @@ const List = () => {
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
+
   const handleSortBy = (column) => {
     if (sortBy === column) {
       // If already sorting by this column, toggle the sort order
@@ -52,6 +81,7 @@ const List = () => {
       setSortType("asc");
     }
     setCurrentPage(1); // Reset current page to 1 after changing the sorting
+
   };
 
   const handleSort = () => {
@@ -152,7 +182,11 @@ const List = () => {
                   >
                     <Edit2 className="h-5 w-5" />
                   </button>
-                  <button className="bg-red-900 hover:bg-red-500 text-white font-bold py-2 px-4 rounded">
+
+                  <button
+                    className="bg-red-900 hover:bg-red-500 text-white font-bold py-2 px-4 rounded"
+                    onClick={() => displaySuccessAlert(product.id)}
+                  >
                     <Trash className="h-5 w-5" />
                   </button>
                 </td>

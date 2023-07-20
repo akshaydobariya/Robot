@@ -1,6 +1,6 @@
 import { Outlet, createBrowserRouter } from "react-router-dom";
 import "./App.css";
-import React from "react";
+import React, { useEffect } from "react";
 import Footer from "./componet/Footer/Footer";
 import Navbar from "./componet/Navbar/Navbar";
 import Login from "./componet/login/Login";
@@ -11,7 +11,12 @@ import View from "./componet/View/View";
 import List from "./componet/RobotList/List";
 import Shimmer from "./componet/Shimmer/shimmer";
 
+
 const App = () => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchRobotData());
+  }, []);
   return (
     <>
       <Navbar />

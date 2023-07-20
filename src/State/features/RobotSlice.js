@@ -52,18 +52,43 @@ export const fetchRobotData = createAsyncThunk(
   }
 );
 
+export const deleteRobotApi = createAsyncThunk(
+  "robot/deleteRobot",
+  async (data) => {
+    try {
+      const response = await axios.delete(
+        `http://localhost:7584/api/Robot/deleteRobot/${data.id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${data.accessToken}`,
+          },
+        }
+      );
+      console.log(response.data);
+      // The response data will depend on the API implementation
+      return response.data;
+    } catch (error) {
+      if (error.response) {
+        // Handle error response from the server
+        const { StatusCode, Message } = error.response.data;
+        throw new Error(`Robot deletion failed: ${StatusCode} - ${Message}`);
+      } else {
+        // Handle network error
+        throw new Error("Robot deletion failed: Network error");
+      }
+    }
+  }
+);
 const robotSlice = createSlice({
   name: "robot",
 
   initialState: {
     isLoading: false,
-
+    addRobot: null,
+    deleteRobot: null,
     robotData: null,
-
     isError: false,
-
     selectedBlog: null,
-
     robot: null,
   },
 
@@ -74,6 +99,9 @@ const robotSlice = createSlice({
 
     clearSelectedBlog: (state) => {
       state.selectedBlog = null;
+    },
+    clearAddRobotdata: (state) => {
+      state.addRobotdata = null;
     },
   },
 
@@ -86,10 +114,8 @@ const robotSlice = createSlice({
 
       .addCase(addRobotApi.fulfilled, (state, action) => {
         state.isLoading = false;
-
-        //state.robotData = action.payload;
+        state.addRobot = action.payload;
       })
-
       .addCase(addRobotApi.rejected, (state, action) => {
         state.isLoading = false;
 
@@ -108,12 +134,23 @@ const robotSlice = createSlice({
 
       .addCase(fetchRobotData.rejected, (state, action) => {
         state.isLoading = false;
-
+        state.isError = true;
+      })
+      .addCase(deleteRobotApi.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(deleteRobotApi.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.deleteRobot = action.payload;
+      })
+      .addCase(deleteRobotApi.rejected, (state, action) => {
+        state.isLoading = false;
         state.isError = true;
       });
   },
 });
 
-export const { setSelectedBlog, clearSelectedBlog } = robotSlice.actions;
+export const { setSelectedBlog, clearSelectedBlog, clearAddRobotdata } =
+  robotSlice.actions;
 
 export default robotSlice.reducer;
