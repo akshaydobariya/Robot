@@ -23,8 +23,6 @@ export const addRobotApi = createAsyncThunk("robot/addRobot", async (data) => {
   }
 });
 
-
-
 export const fetchRobotData = createAsyncThunk(
   "robot/fetchRobotData",
   async () => {
@@ -41,12 +39,15 @@ export const fetchRobotData = createAsyncThunk(
       } else {
         throw new Error("Robot data failed: Network error");
       }
-
+    }
+  }
+);
 
 const robotSlice = createSlice({
   name: "robot",
   initialState: {
     isLoading: false,
+    addRobot: null,
     robotData: null,
     isError: false,
     selectedBlog: null,
@@ -59,6 +60,9 @@ const robotSlice = createSlice({
     clearSelectedBlog: (state) => {
       state.selectedBlog = null;
     },
+    clearAddRobotdata: (state) => {
+      state.addRobotdata = null;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -67,7 +71,7 @@ const robotSlice = createSlice({
       })
       .addCase(addRobotApi.fulfilled, (state, action) => {
         state.isLoading = false;
-        //state.robotData = action.payload;
+        state.addRobot = action.payload;
       })
       .addCase(addRobotApi.rejected, (state, action) => {
         state.isLoading = false;
@@ -84,9 +88,9 @@ const robotSlice = createSlice({
         state.isLoading = false;
         state.isError = true;
       });
-
   },
 });
 
-export const { setSelectedBlog, clearSelectedBlog } = robotSlice.actions;
+export const { setSelectedBlog, clearSelectedBlog, clearAddRobotdata } =
+  robotSlice.actions;
 export default robotSlice.reducer;
