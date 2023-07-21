@@ -24,7 +24,7 @@ const Home = () => {
           <a href="#">
             <img
               key={robot.Id}
-              className="rounded-t-lg mt-2 p-4 h-3/5 sm:h-80 object-cover"
+              className="rounded-t-lg mt-2 p-4 ml-4 w-11/12 h-3/5 sm:h-80 object-fill "
               src={`http://localhost:7584/images/${robot.imagePath}`}
               alt="robot"
             />
