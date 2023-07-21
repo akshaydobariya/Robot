@@ -24,7 +24,7 @@ const Register = () => {
 
       },
     });
-  if (data.statusCode === 200) {
+  if (registrationData.statusCode === 200) {
     nevigate("/login");
   }
 

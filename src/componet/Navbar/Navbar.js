@@ -8,6 +8,10 @@ const Navbar = () => {
   const dispatch = useDispatch();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
+  const closeMobileMenu = () => {
+    setIsMobileMenuOpen(false);
+  };
+
   const logoutHandler = () => {
     dispatch(logout());
   };
@@ -98,6 +102,7 @@ const Navbar = () => {
               <li>
                 <Link
                   to="/"
+                  onClick={closeMobileMenu}
                   className="block py-2 pl-3 pr-4 text-white border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-purple-700 lg:p-0 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700"
                 >
                   Home
@@ -106,6 +111,7 @@ const Navbar = () => {
               <li>
                 <Link
                   to={"/list"}
+                  onClick={closeMobileMenu}
                   className="block py-2 pl-3 pr-4 text-white border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-purple-700 lg:p-0 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700"
                 >
                   Robot List
