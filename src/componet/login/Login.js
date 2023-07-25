@@ -1,5 +1,5 @@
 import { useFormik } from "formik";
-import React from "react";
+import React, { useEffect } from "react";
 import { loginUser } from "../../State/features/LoginSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { loginValidationSchema } from "../../validation/validation";
@@ -20,9 +20,12 @@ const Login = () => {
         );
       },
     });
-  if (loginData.statusCode == 200) {
-    nevigate("/");
-  }
+    useEffect(()=>{
+      if (loginData.statusCode === 200) {
+        nevigate("/");
+      }
+    }, [loginData.statusCode, nevigate]);
+  
   return (
     <section className="min-h-screen flex items-stretch text-white">
       <div

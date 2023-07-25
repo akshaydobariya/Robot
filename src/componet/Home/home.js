@@ -6,6 +6,7 @@ import Shimmer from "../Shimmer/shimmer";
 
 const Home = () => {
   const { robotData, isLoading } = useSelector((state) => state.robots);
+  const { accessToken } = useSelector((state) => state.login);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -39,8 +40,16 @@ const Home = () => {
               {robot.robotFeatures}
             </p>
             <Link
-              to={"/view/" + robot.id}
-              className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+              to={accessToken ? "/view/" + robot.id : "/login"}
+              className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg "
+              //   accessToken ? "hover:bg-blue-800" : "opacity-100 cursor-not-allowed"
+              // } focus:ring-4 focus:outline-none ${
+              //   accessToken ? "focus:ring-blue-300" : "focus:ring-transparent"
+              // } dark:bg-blue-600 ${
+              //   accessToken ? "dark:hover:bg-blue-700" : "dark:hover:bg-transparent"
+              // } ${
+              //   accessToken ? "dark:focus:ring-blue-800" : "dark:focus:ring-transparent"
+              // }`}
             >
               Read more
               <svg
