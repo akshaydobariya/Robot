@@ -1,7 +1,10 @@
 import { useFormik } from "formik";
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { registerUser } from "../../State/features/LoginSlice";
+import {
+  clearRegisterData,
+  registerUser,
+} from "../../State/features/LoginSlice";
 import { registerValidationSchema } from "../../validation/validation";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
@@ -23,9 +26,15 @@ const Register = () => {
         dispatch(registerUser(formData));
       },
     });
-  if (registrationData.statusCode === 200) {
-    nevigate("/login");
-  }
+
+  // Add a useEffect hook to redirect to login page when registration is successful
+  useEffect(() => {
+    if (registrationData?.statusCode === 200) {
+      nevigate("/login");
+      dispatch(clearRegisterData());
+      console.log(registrationData);
+    }
+  }, [registrationData]);
 
   return (
     <section className="min-h-screen flex items-stretch text-white">
@@ -51,8 +60,8 @@ const Register = () => {
         </div>
         <div className="w-full py-6 z-20">
           <h1 className="font-sans md:font-serif text-5xl mb-5">Welcome</h1>
-          {registrationData.statusCode === 400 && (
-            <p className="text-red-500">{registrationData.message}</p>
+          {registrationData?.statusCode === 400 && (
+            <p className="text-red-500">{registrationData?.message}</p>
           )}
           <form
             className="sm:w-2/3 w-full px-4 lg:px-0 mx-auto"

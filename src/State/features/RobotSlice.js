@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
-import axios, { Axios } from "axios";
+import axios from "axios";
 
 export const addRobotApi = createAsyncThunk("robot/addRobot", async (data) => {
   try {
