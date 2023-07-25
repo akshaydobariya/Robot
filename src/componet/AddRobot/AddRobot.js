@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 import { addRobotValidationSchema } from "../../validation/validation";
-import { addRobotApi } from "../../State/features/RobotSlice";
+import { addRobotApi, updateRobot } from "../../State/features/RobotSlice";
 import Swal from "sweetalert2";
 
 const AddRobot = () => {
@@ -12,6 +12,7 @@ const AddRobot = () => {
   const { selectedBlog, addRobot } = useSelector((state) => state.robots);
   const { accessToken } = useSelector((state) => state.login);
   const [selectedFile, setSelectedFile] = useState(null);
+  const [selectedRobotId, setSelectedRobotId] = useState(null);
 
   const handleGoBack = () => {
     navigate(-1); // Redirect to the previous page
@@ -24,6 +25,7 @@ const AddRobot = () => {
     handleBlur,
     handleChange,
     handleSubmit,
+    resetForm,
     setValues,
   } = useFormik({
     initialValues: {
@@ -32,38 +34,47 @@ const AddRobot = () => {
       robotFeature: "",
       location: "",
       version: "",
-      image: "",
+      image: null,
     },
     validationSchema: addRobotValidationSchema,
-    onSubmit: async (values, action) => {
-      if (selectedBlog == null) {
-        const formData = new FormData();
-        formData.append("RobotName", values.robotName);
-        formData.append("image", selectedFile);
-        formData.append("OwnerName", values.ownerName);
-        formData.append("RobotFeatures", values.robotFeature);
-        formData.append("Location", values.location);
-        formData.append("FirmwareVersion", values.version);
-        dispatch(addRobotApi({ formData, accessToken }));
-        if (addRobot == "Robot Added Successfully") {
-          action.resetForm();
-        }
+    onSubmit: async (values) => {
+      const formData = new FormData();
+      formData.append("RobotName", values.robotName);
+      formData.append("image", selectedFile);
+      formData.append("OwnerName", values.ownerName);
+      formData.append("RobotFeatures", values.robotFeature);
+      formData.append("Location", values.location);
+      formData.append("FirmwareVersion", values.version);
+
+      if (selectedRobotId) {
+        formData.append("Id", selectedRobotId);
+        dispatch(updateRobot({ formData, accessToken }));
       } else {
+        dispatch(addRobotApi({ formData, accessToken }));
+        if (addRobot === "Robot Added Successfully") {
+          resetForm(); // Reset form on successful addition
+        }
       }
     },
   });
+
   useEffect(() => {
     if (selectedBlog) {
+      setSelectedRobotId(selectedBlog.id); // Set the selected robot's ID when it is selected
+      setSelectedFile(selectedBlog.imagePath); // Set the selected file (image) path
+      console.log(selectedFile);
       setValues({
-        Id: selectedBlog.id,
         robotName: selectedBlog.robotName,
         ownerName: selectedBlog.ownerName,
         robotFeature: selectedBlog.robotFeatures,
         location: selectedBlog.location,
         version: selectedBlog.firmwareVersion,
       });
+    } else {
+      setSelectedRobotId(null); // Reset the selected robot ID when no robot is selected
     }
   }, [selectedBlog, setValues]);
+
   const handleFileChange = (event) => {
     setSelectedFile(event.target.files[0]);
   };
@@ -82,16 +93,17 @@ const AddRobot = () => {
 
   useEffect(() => {
     console.log(addRobot);
-    if (addRobot == "Robot Added Successfully") {
+    if (addRobot === "Robot Added Successfully") {
       displaySuccessAlert();
     }
   }, [addRobot]);
+
   return (
     <div className="flex justify-center items-center bg-black">
       <div className="w-full max-w-xl">
         <form className="bg-black text-white p-8" onSubmit={handleSubmit}>
           <h1 className="text-2xl mb-6 font-mono font-bold">
-            Add Robot Details
+            {selectedRobotId ? "Update" : "Add"} Robot Details
           </h1>
 
           {/* Robot Name */}
@@ -114,7 +126,7 @@ const AddRobot = () => {
             />
             <div className="text-black">
               {errors.robotName && touched.robotName && (
-                <p className="text-sm text-red-600 ">{errors.robotName}</p>
+                <p className="text-sm text-red-600">{errors.robotName}</p>
               )}
             </div>
           </div>
@@ -241,7 +253,7 @@ const AddRobot = () => {
             type="submit"
             className="text-xl bg-blue-800 hover:bg-blue-500 text-white font-bold py-2 px-6 rounded"
           >
-            Add
+            {selectedRobotId ? "Update" : "Add"}
           </button>
 
           <button

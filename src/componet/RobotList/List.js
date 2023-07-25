@@ -70,7 +70,6 @@ const List = () => {
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
-
   const handleSortBy = (column) => {
     if (sortBy === column) {
       // If already sorting by this column, toggle the sort order
@@ -81,7 +80,6 @@ const List = () => {
       setSortType("asc");
     }
     setCurrentPage(1); // Reset current page to 1 after changing the sorting
-
   };
 
   const handleSort = () => {
@@ -112,6 +110,7 @@ const List = () => {
   return (
     <div className="bg-black min-h-screen text-white">
       <div className="container mx-auto p-4">
+
         <h2 className="text-2xl font-bold mb-4 flex items-center justify-center">Product List</h2>
         <div className="flex justify-between mb-4 sm:mb-4"> 
           <div className="flex">
@@ -120,7 +119,7 @@ const List = () => {
               value={searchQuery}
               onChange={handleSearch}
               placeholder="Search products"
-              className="bg-gray-900 text-white px-4 py-2 rounded"
+              className="bg-gray-900 text-white px-4 py-2 rounded m-2 border-white"
             />
           </div>
           <div>
