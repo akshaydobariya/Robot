@@ -21,13 +21,11 @@ const Register = () => {
         formData.append("Password", values.password);
         formData.append("Email", values.email);
         dispatch(registerUser(formData));
-
       },
     });
-  if (data.statusCode === 200) {
+  if (registrationData.statusCode === 200) {
     nevigate("/login");
   }
-
 
   return (
     <section className="min-h-screen flex items-stretch text-white">
