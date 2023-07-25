@@ -110,10 +110,9 @@ const List = () => {
   return (
     <div className="bg-black min-h-screen text-white">
       <div className="container mx-auto p-4">
-        <h2 className="text-2xl font-bold mb-4 ml-4 text-center">
-          Product List
-        </h2>
-        <div className="flex justify-between mb-4 sm:mb-4">
+
+        <h2 className="text-2xl font-bold mb-4 flex items-center justify-center">Product List</h2>
+        <div className="flex justify-between mb-4 sm:mb-4"> 
           <div className="flex">
             <input
               type="text"

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 import { addRobotValidationSchema } from "../../validation/validation";
@@ -7,10 +8,15 @@ import Swal from "sweetalert2";
 
 const AddRobot = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { selectedBlog, addRobot } = useSelector((state) => state.robots);
   const { accessToken } = useSelector((state) => state.login);
   const [selectedFile, setSelectedFile] = useState(null);
   const [selectedRobotId, setSelectedRobotId] = useState(null);
+
+  const handleGoBack = () => {
+    navigate(-1); // Redirect to the previous page
+  };
 
   const {
     values,
@@ -248,6 +254,13 @@ const AddRobot = () => {
             className="text-xl bg-blue-800 hover:bg-blue-500 text-white font-bold py-2 px-6 rounded"
           >
             {selectedRobotId ? "Update" : "Add"}
+          </button>
+
+          <button
+            className="ml-6 text-xl bg-red-800 hover:bg-red-500 text-white font-bold py-2 px-4 rounded"
+            onClick={handleGoBack}
+          >
+            Back
           </button>
         </form>
       </div>
