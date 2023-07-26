@@ -50,13 +50,14 @@ const List = () => {
 
   useEffect(() => {
     dispatch(fetchRobotData());
-  }, [robotData]);
+  }, []);
 
   const handleSortByName = () => {
     setSortOrder((prevSortOrder) => (prevSortOrder === "asc" ? "desc" : "asc"));
   };
 
   const sortProducts = (products) => {
+    if (!Array.isArray(products)) return []; // Return an empty array if products is not iterable
     const sortedProducts = [...products];
     sortedProducts.sort((a, b) => {
       const nameA = a.robotName.toLowerCase();
@@ -81,11 +82,11 @@ const List = () => {
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
   const currentProducts = searchQuery ? filteredProducts : products;
   const sortedProducts = sortProducts(currentProducts); // Sort the products
-  const currentProductsPage = sortedProducts?.slice(
+  const currentProductsPage = sortedProducts.slice(
     indexOfFirstProduct,
     indexOfLastProduct
   );
-  const totalPages = Math.ceil(sortedProducts?.length / productsPerPage);
+  const totalPages = Math.ceil(sortedProducts.length / productsPerPage);
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
