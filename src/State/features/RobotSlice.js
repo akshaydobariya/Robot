@@ -1,26 +1,24 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-
 import axios from "axios";
 
+const API_BASE_URL = "http://localhost:7584/api";
+
+// Async thunk for adding a new robot
 export const addRobotApi = createAsyncThunk("robot/addRobot", async (data) => {
   try {
     const response = await axios.post(
-      `http://localhost:7584/api/Robot/addRobot`,
-
+      `${API_BASE_URL}/Robot/addRobot`,
       data.formData,
-
       {
         headers: {
           Authorization: `Bearer ${data.accessToken}`,
         },
       }
     );
-
     return response.data;
   } catch (error) {
     if (error.response) {
       const { StatusCode, Message } = error.response.data;
-
       throw new Error(`Robot add failed: ${StatusCode} - ${Message}`);
     } else {
       throw new Error("Robot Add failed: Network error");
@@ -28,22 +26,16 @@ export const addRobotApi = createAsyncThunk("robot/addRobot", async (data) => {
   }
 });
 
+// Async thunk for fetching robot data
 export const fetchRobotData = createAsyncThunk(
   "robot/fetchRobotData",
-
   async () => {
     try {
-      const response = await axios.get(
-        `http://localhost:7584/api/Robot/getAllRobots`
-      );
-
-      // console.log(response.data);
-
+      const response = await axios.get(`${API_BASE_URL}/Robot/getAllRobots`);
       return response.data;
     } catch (error) {
       if (error.response) {
         const { StatusCode, Message } = error.response.data;
-
         throw new Error(`Robot data failed: ${StatusCode} - ${Message}`);
       } else {
         throw new Error("Robot data failed: Network error");
@@ -52,40 +44,38 @@ export const fetchRobotData = createAsyncThunk(
   }
 );
 
+// Async thunk for deleting a robot
 export const deleteRobotApi = createAsyncThunk(
   "robot/deleteRobot",
   async (data) => {
     try {
       const response = await axios.delete(
-        `http://localhost:7584/api/Robot/deleteRobot/${data.id}`,
+        `${API_BASE_URL}/Robot/deleteRobot/${data.id}`,
         {
           headers: {
             Authorization: `Bearer ${data.accessToken}`,
           },
         }
       );
-      console.log(response.data);
-      // The response data will depend on the API implementation
       return response.data;
     } catch (error) {
       if (error.response) {
-        // Handle error response from the server
         const { StatusCode, Message } = error.response.data;
         throw new Error(`Robot deletion failed: ${StatusCode} - ${Message}`);
       } else {
-        // Handle network error
         throw new Error("Robot deletion failed: Network error");
       }
     }
   }
 );
 
+// Async thunk for updating a robot
 export const updateRobot = createAsyncThunk(
   "robot/updateRobot",
   async (data) => {
     try {
       const response = await axios.put(
-        "http://localhost:7584/api/Robot/updateRobot",
+        `${API_BASE_URL}/Robot/updateRobot`,
         data.formData,
         {
           headers: {
@@ -96,19 +86,17 @@ export const updateRobot = createAsyncThunk(
       return response.data;
     } catch (error) {
       if (error.response) {
-        // Handle error response from the server
         const { StatusCode, Message } = error.response.data;
         throw new Error(`Robot update failed: ${StatusCode} - ${Message}`);
       } else {
-        // Handle network error
         throw new Error("Robot update failed: Network error");
       }
     }
   }
 );
+
 const robotSlice = createSlice({
   name: "robot",
-
   initialState: {
     isLoading: false,
     addRobotdata: null,
@@ -119,47 +107,40 @@ const robotSlice = createSlice({
     selectedBlog: null,
     updateRobotdData: null,
   },
-
   reducers: {
     setSelectedBlog: (state, action) => {
       state.selectedBlog = action.payload;
     },
-
     clearSelectedBlog: (state) => {
       state.selectedBlog = null;
     },
     clearAddRobotdata: (state) => {
       state.addRobotdata = null;
     },
+    clearUpdateRobotdData: (state) => {
+      state.updateRobotdData = null;
+    },
   },
-
   extraReducers: (builder) => {
     builder
-
       .addCase(addRobotApi.pending, (state) => {
         state.isLoading = true;
       })
-
       .addCase(addRobotApi.fulfilled, (state, action) => {
         state.isLoading = false;
         state.addRobot = action.payload;
       })
       .addCase(addRobotApi.rejected, (state, action) => {
         state.isLoading = false;
-
         state.isError = true;
       })
-
       .addCase(fetchRobotData.pending, (state) => {
         state.isLoading = true;
       })
-
       .addCase(fetchRobotData.fulfilled, (state, action) => {
         state.isLoading = false;
-
         state.robotData = action.payload;
       })
-
       .addCase(fetchRobotData.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
@@ -189,7 +170,11 @@ const robotSlice = createSlice({
   },
 });
 
-export const { setSelectedBlog, clearSelectedBlog, clearAddRobotdata } =
-  robotSlice.actions;
+export const {
+  setSelectedBlog,
+  clearSelectedBlog,
+  clearAddRobotdata,
+  clearUpdateRobotdData,
+} = robotSlice.actions;
 
 export default robotSlice.reducer;
