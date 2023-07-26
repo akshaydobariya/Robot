@@ -10,6 +10,7 @@ import Home from "./componet/Home/home";
 import View from "./componet/View/View";
 import List from "./componet/RobotList/List";
 import Shimmer from "./componet/Shimmer/shimmer";
+import Error from "./componet/Error/Error";
 
 const App = () => {
   return (
@@ -25,6 +26,7 @@ export const appRouter = createBrowserRouter([
   {
     path: "/",
     element: <App />,
+    errorElement:<Error/>,
     children: [
       {
         path: "/",
