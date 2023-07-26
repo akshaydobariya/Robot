@@ -115,7 +115,7 @@ const robotSlice = createSlice({
       state.selectedBlog = null;
     },
     clearAddRobotdata: (state) => {
-      state.addRobotdata = null;
+      state.addRobot = null;
     },
     clearUpdateRobotdData: (state) => {
       state.updateRobotdData = null;
