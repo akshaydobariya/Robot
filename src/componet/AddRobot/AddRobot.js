@@ -9,7 +9,9 @@ import Swal from "sweetalert2";
 const AddRobot = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { selectedBlog, addRobot } = useSelector((state) => state.robots);
+  const { selectedBlog, addRobot, updateRobotdData } = useSelector(
+    (state) => state.robots
+  );
   const { accessToken } = useSelector((state) => state.login);
   const [selectedFile, setSelectedFile] = useState(null);
   const [selectedRobotId, setSelectedRobotId] = useState(null);
@@ -93,10 +95,13 @@ const AddRobot = () => {
 
   useEffect(() => {
     console.log(addRobot);
-    if (addRobot === "Robot Added Successfully") {
+    if (
+      addRobot === "Robot Added Successfully" ||
+      updateRobotdData === "Robot updated successfully"
+    ) {
       displaySuccessAlert();
     }
-  }, [addRobot]);
+  }, [addRobot, updateRobotdData]);
 
   return (
     <div className="flex justify-center items-center bg-black">
