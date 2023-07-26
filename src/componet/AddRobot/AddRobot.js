@@ -113,13 +113,12 @@ const AddRobot = () => {
 
   // UseEffect to handle success alerts and clear redux data on successful addition/update
   useEffect(() => {
-    console.log(addRobot);
-    if (
-      addRobot === "Robot Added Successfully" ||
-      updateRobotdData === "Robot updated successfully"
-    ) {
+    if (addRobot === "Robot Added Successfully") {
       displaySuccessAlert();
       dispatch(clearAddRobotdata());
+    }
+    if (updateRobotdData === "Robot updated successfully") {
+      displaySuccessAlert();
       dispatch(clearUpdateRobotdData());
     }
   }, [addRobot, updateRobotdData]);
