@@ -3,23 +3,34 @@ import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 import { addRobotValidationSchema } from "../../validation/validation";
-import { addRobotApi, updateRobot } from "../../State/features/RobotSlice";
+import {
+  addRobotApi,
+  clearAddRobotdata,
+  clearUpdateRobotdData,
+  updateRobot,
+} from "../../State/features/RobotSlice";
 import Swal from "sweetalert2";
+import Login from "../login/Login";
 
 const AddRobot = () => {
+  // Redux setup
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { selectedBlog, addRobot, updateRobotdData } = useSelector(
     (state) => state.robots
   );
   const { accessToken } = useSelector((state) => state.login);
+
+  // State for handling file upload
   const [selectedFile, setSelectedFile] = useState(null);
   const [selectedRobotId, setSelectedRobotId] = useState(null);
 
+  // Function to navigate to the previous page
   const handleGoBack = () => {
     navigate(-1); // Redirect to the previous page
   };
 
+  // Form handling with Formik
   const {
     values,
     errors,
@@ -30,6 +41,7 @@ const AddRobot = () => {
     resetForm,
     setValues,
   } = useFormik({
+    // Initial values for the form fields
     initialValues: {
       robotName: "",
       ownerName: "",
@@ -38,7 +50,9 @@ const AddRobot = () => {
       version: "",
       image: null,
     },
+    // Validation schema for form fields
     validationSchema: addRobotValidationSchema,
+    // Submit function when the form is submitted
     onSubmit: async (values) => {
       const formData = new FormData();
       formData.append("RobotName", values.robotName);
@@ -48,10 +62,12 @@ const AddRobot = () => {
       formData.append("Location", values.location);
       formData.append("FirmwareVersion", values.version);
 
+      // If a robot is selected (editing mode)
       if (selectedRobotId) {
         formData.append("Id", selectedRobotId);
         dispatch(updateRobot({ formData, accessToken }));
       } else {
+        // If no robot is selected (adding mode)
         dispatch(addRobotApi({ formData, accessToken }));
         if (addRobot === "Robot Added Successfully") {
           resetForm(); // Reset form on successful addition
@@ -60,11 +76,11 @@ const AddRobot = () => {
     },
   });
 
+  // UseEffect to set form values when a robot is selected (edit mode)
   useEffect(() => {
     if (selectedBlog) {
       setSelectedRobotId(selectedBlog.id); // Set the selected robot's ID when it is selected
       setSelectedFile(selectedBlog.imagePath); // Set the selected file (image) path
-      console.log(selectedFile);
       setValues({
         robotName: selectedBlog.robotName,
         ownerName: selectedBlog.ownerName,
@@ -77,10 +93,12 @@ const AddRobot = () => {
     }
   }, [selectedBlog, setValues]);
 
+  // Function to handle file change for image upload
   const handleFileChange = (event) => {
     setSelectedFile(event.target.files[0]);
   };
 
+  // Function to display success alert on successful addition/update
   const displaySuccessAlert = () => {
     Swal.fire({
       position: "center",
@@ -93,13 +111,15 @@ const AddRobot = () => {
     });
   };
 
+  // UseEffect to handle success alerts and clear redux data on successful addition/update
   useEffect(() => {
-    console.log(addRobot);
     if (
       addRobot === "Robot Added Successfully" ||
       updateRobotdData === "Robot updated successfully"
     ) {
       displaySuccessAlert();
+      dispatch(clearAddRobotdata());
+      dispatch(clearUpdateRobotdData());
     }
   }, [addRobot, updateRobotdData]);
 

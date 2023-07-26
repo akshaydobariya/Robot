@@ -1,56 +1,56 @@
 import React, { useState } from "react";
-
 import { useDispatch, useSelector } from "react-redux";
-
 import { Link } from "react-router-dom";
-
 import { logout } from "../../State/features/LoginSlice";
 
 const Navbar = () => {
   const { accessToken } = useSelector((state) => state.login);
-
   const dispatch = useDispatch();
-
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
+  // Function to close the mobile menu
   const closeMobileMenu = () => {
     setIsMobileMenuOpen(false);
   };
 
+  // Function to handle logout
   const logoutHandler = () => {
     dispatch(logout());
   };
 
+  // Function to toggle the mobile menu
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
   return (
     <>
+      {/* Navbar */}
       <div className="sticky top-0 z-10">
         <div className="flex flex-wrap items-center justify-between max-w-screen-xl px-4 mx-auto h-14 bg-black">
+          {/* Brand logo and name */}
           <a className="flex items-center">
             <img
               src="https://demo.themesberg.com/landwind/images/logo.svg"
               className="h-6 mr-3 sm:h-9"
               alt="Landwind Logo"
             />
-
             <span className="self-center text-xl font-semibold whitespace-nowrap text-white">
               RoBoTics
             </span>
           </a>
 
           <div className="flex items-center lg:order-2">
+            {/* Conditional rendering based on accessToken */}
             {accessToken === null ? (
               <>
+                {/* Login and Register links */}
                 <Link
                   to="/login"
                   className="block py-2 pl-3 pr-4 text-white font-semibold border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-purple-700 lg:p-0 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700 mr-3"
                 >
                   Login
                 </Link>
-
                 <Link
                   to="/register"
                   className="block py-2 pl-3 pr-4 font-semibold text-white border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-purple-700 lg:p-0 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700"
@@ -59,6 +59,7 @@ const Navbar = () => {
                 </Link>
               </>
             ) : (
+              /* Logout button */
               <button
                 onClick={logoutHandler}
                 className="block py-2 pl-3 pr-4 text-white font-semibold border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-purple-700 lg:p-0 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700 ml-3"
@@ -67,6 +68,7 @@ const Navbar = () => {
               </button>
             )}
 
+            {/* Mobile menu toggle button */}
             <button
               onClick={toggleMobileMenu}
               type="button"
@@ -75,7 +77,7 @@ const Navbar = () => {
               aria-expanded={isMobileMenuOpen}
             >
               <span className="sr-only">Open main menu</span>
-
+              {/* Menu icon */}
               <svg
                 className={`w-6 h-6 ${isMobileMenuOpen ? "hidden" : ""}`}
                 fill="currentColor"
@@ -88,7 +90,7 @@ const Navbar = () => {
                   clipRule="evenodd"
                 ></path>
               </svg>
-
+              {/* Close icon */}
               <svg
                 className={`w-6 h-6 ${isMobileMenuOpen ? "" : "hidden"}`}
                 fill="currentColor"
@@ -104,6 +106,7 @@ const Navbar = () => {
             </button>
           </div>
 
+          {/* Mobile menu */}
           <div
             className={`items-center justify-between ${
               isMobileMenuOpen ? "" : "hidden"
@@ -111,6 +114,7 @@ const Navbar = () => {
             id="mobile-menu-2"
           >
             <ul className="flex flex-col mt-4 font-medium lg:flex-row lg:space-x-8 lg:mt-0">
+              {/* Nav links */}
               <li>
                 <Link
                   to="/"
@@ -120,7 +124,6 @@ const Navbar = () => {
                   Home
                 </Link>
               </li>
-
               <li>
                 <Link
                   to={"/list"}
@@ -129,33 +132,6 @@ const Navbar = () => {
                 >
                   Robot List
                 </Link>
-              </li>
-
-              <li>
-                <a
-                  href="#"
-                  className="block py-2 pl-3 pr-4 text-white border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-purple-700 lg:p-0 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700"
-                >
-                  Features
-                </a>
-              </li>
-
-              <li>
-                <a
-                  href="#"
-                  className="block py-2 pl-3 pr-4 text-white border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-purple-700 lg:p-0 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700"
-                >
-                  Team
-                </a>
-              </li>
-
-              <li>
-                <a
-                  href="#"
-                  className="block py-2 pl-3 pr-4 text-white border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-purple-700 lg:p-0 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700"
-                >
-                  Contact
-                </a>
               </li>
             </ul>
           </div>
