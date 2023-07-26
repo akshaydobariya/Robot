@@ -94,7 +94,7 @@ const AddRobot = () => {
   };
 
   useEffect(() => {
-    console.log(addRobot);
+    console.log(updateRobotdData);
     if (
       addRobot === "Robot Added Successfully" ||
       updateRobotdData === "Robot updated successfully"

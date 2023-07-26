@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { loginValidationSchema } from "../../validation/validation";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { useEffect } from "react";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -20,9 +21,13 @@ const Login = () => {
         );
       },
     });
-  if (loginData.statusCode == 200) {
-    nevigate("/");
-  }
+
+    useEffect(()=>{
+      if (loginData.statusCode === 200) {
+        nevigate("/");
+      }
+    },[loginData.statusCode,nevigate]);
+  
   return (
     <section className="min-h-screen flex items-stretch text-white">
       <div
