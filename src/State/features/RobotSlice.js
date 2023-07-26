@@ -117,7 +117,7 @@ const robotSlice = createSlice({
     robotData: null,
     isError: false,
     selectedBlog: null,
-    robot: null,
+    updateRobotdData: null,
   },
 
   reducers: {
@@ -180,7 +180,7 @@ const robotSlice = createSlice({
       })
       .addCase(updateRobot.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.robot = action.payload;
+        state.updateRobotdData = action.payload;
       })
       .addCase(updateRobot.rejected, (state, action) => {
         state.isLoading = false;
