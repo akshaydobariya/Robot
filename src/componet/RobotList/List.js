@@ -24,7 +24,9 @@ const List = () => {
   const { accessToken } = useSelector((state) => state.login);
   const products = robotData;
 
+  // Function to display success alert when deleting a product
   const displaySuccessAlert = (id) => {
+    // Display a confirmation modal using Swal
     Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
@@ -37,7 +39,9 @@ const List = () => {
       color: "#FFFFFF",
     }).then((result) => {
       if (result.isConfirmed) {
+        // Dispatch the deleteRobotApi action to delete the product
         dispatch(deleteRobotApi({ id, accessToken }));
+        // Show a success message using Swal
         Swal.fire({
           title: "Deleted!",
           text: "Your file has been deleted.",
@@ -49,14 +53,17 @@ const List = () => {
     });
   };
 
+  // Fetch robot data on component mount
   useEffect(() => {
     dispatch(fetchRobotData());
   }, []);
 
+  // Function to handle sorting by product name
   const handleSortByName = () => {
     setSortOrder((prevSortOrder) => (prevSortOrder === "asc" ? "desc" : "asc"));
   };
 
+  // Function to sort the products by name based on sortOrder
   const sortProducts = (products) => {
     if (!Array.isArray(products)) return []; // Return an empty array if products is not iterable
     const sortedProducts = [...products];
@@ -70,6 +77,7 @@ const List = () => {
     return sortedProducts;
   };
 
+  // Function to handle search query changes
   const handleSearch = (event) => {
     const query = event.target.value.toLowerCase();
     setSearchQuery(query);
@@ -79,6 +87,7 @@ const List = () => {
     setFilteredProducts(filtered);
   };
 
+  // Pagination
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
   const currentProducts = searchQuery ? filteredProducts : products;
@@ -89,8 +98,10 @@ const List = () => {
   );
   const totalPages = Math.ceil(sortedProducts.length / productsPerPage);
 
+  // Function to handle pagination
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
+  // Function to handle product edit
   const editHandler = (id) => {
     const selectedProduct = currentProducts.find(
       (product) => product.id === id
@@ -100,8 +111,10 @@ const List = () => {
   };
 
   return accessToken === null ? (
+    // If user is not logged in, show the login component
     <Login />
   ) : (
+    // If user is logged in, show the product list
     <div className="bg-black min-h-screen text-white">
       <div className="container mx-auto p-4">
         <h2 className="text-2xl font-bold mb-4 flex items-center justify-center">
@@ -128,6 +141,7 @@ const List = () => {
           </div>
         </div>
         <table className="w-full text-gray-500 dark:text-gray-400 ml-4">
+          {/* Table header */}
           <thead>
             <tr>
               <th
@@ -152,6 +166,7 @@ const List = () => {
             </tr>
           </thead>
           <tbody>
+            {/* Table rows */}
             {currentProductsPage?.map((product, index) => (
               <tr key={product.id}>
                 <td className="px-2 py-2 text-white">
@@ -161,13 +176,14 @@ const List = () => {
                   {product.robotName}
                 </td>
                 <td className="px-2 py-2 flex items-center">
+                  {/* Edit button */}
                   <button
                     className="bg-green-900 hover:bg-green-500 text-white font-bold py-2 px-4 rounded mr-2"
                     onClick={() => editHandler(product.id)}
                   >
                     <Edit2 className="h-5 w-5" />
                   </button>
-
+                  {/* Delete button */}
                   <button
                     className="bg-red-900 hover:bg-red-500 text-white font-bold py-2 px-4 rounded"
                     onClick={() => displaySuccessAlert(product.id)}
@@ -187,6 +203,7 @@ const List = () => {
           </tbody>
         </table>
         <div className="flex justify-center mt-4">
+          {/* Pagination */}
           <nav className="block">
             <ul className="flex pl-0 rounded list-none flex-wrap">
               {Array.from({ length: totalPages }, (_, index) => (

@@ -6,14 +6,14 @@ import {
   registerUser,
 } from "../../State/features/LoginSlice";
 import { registerValidationSchema } from "../../validation/validation";
-import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 const Register = () => {
-  const nevigate = useNavigate();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const { registrationData } = useSelector((state) => state.login);
 
+  // Use Formik hook to handle form state and validation
   const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
     useFormik({
       initialValues: { email: "", password: "", username: "" },
@@ -27,10 +27,10 @@ const Register = () => {
       },
     });
 
-  // Add a useEffect hook to redirect to login page when registration is successful
+  // Use useEffect to redirect to the login page when registration is successful
   useEffect(() => {
     if (registrationData?.statusCode === 200) {
-      nevigate("/login");
+      navigate("/login");
       dispatch(clearRegisterData());
       console.log(registrationData);
     }

@@ -1,15 +1,16 @@
 import { useFormik } from "formik";
 import React, { useEffect } from "react";
-import { clearLoginData, loginUser } from "../../State/features/LoginSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { clearLoginData, loginUser } from "../../State/features/LoginSlice";
 import { loginValidationSchema } from "../../validation/validation";
-import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 const Login = () => {
   const dispatch = useDispatch();
-  const nevigate = useNavigate();
+  const navigate = useNavigate();
   const { loginData } = useSelector((state) => state.login);
+
+  // Initialize Formik for form handling and validation
   const { values, errors, touched, handleBlur, handleChange, handleSubmit } =
     useFormik({
       initialValues: { username: "", password: "" },
@@ -20,11 +21,10 @@ const Login = () => {
         );
       },
     });
-
   useEffect(() => {
     if (loginData && loginData?.statusCode === 200) {
       dispatch(clearLoginData());
-      nevigate("/");
+      navigate("/");
     }
   }, [loginData]);
 

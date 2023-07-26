@@ -1,3 +1,4 @@
+// Import necessary dependencies and modules
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
@@ -5,16 +6,22 @@ import { fetchRobotData } from "../../State/features/RobotSlice";
 import Shimmer from "../Shimmer/shimmer";
 
 const Home = () => {
+  // Accessing data from the Redux store
   const { robotData, isLoading } = useSelector((state) => state.robots);
   const dispatch = useDispatch();
 
+  // Fetch robot data from the API when the component mounts
   useEffect(() => {
     dispatch(fetchRobotData());
   }, []);
 
-  return isLoading ? (
-    <Shimmer />
-  ) : (
+  // Display shimmer effect while data is being fetched
+  if (isLoading) {
+    return <Shimmer />;
+  }
+
+  // Render the list of robots when data is available
+  return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 bg-black min-h-fit">
       {robotData?.map((robot) => (
         <div
@@ -39,11 +46,13 @@ const Home = () => {
               {robot.robotFeatures}
             </p>
 
+            {/* Link to view more details of the robot */}
             <Link
               to={"/view/" + robot.id}
               className="relative inline-flex items-center justify-start px-6 py-3 overflow-hidden font-medium transition-all bg-white rounded hover:bg-white group"
               style={{ minHeight: "15px" }} // Adjust the minimum height here
             >
+              {/* Background span for the hover effect */}
               <span className="w-48 h-48 rounded rotate-[-40deg] bg-purple-600 absolute bottom-0 left-0 -translate-x-full ease-out duration-500 transition-all translate-y-full mb-9 ml-9 group-hover:ml-0 group-hover:mb-32 group-hover:translate-x-0"></span>
               <span className="relative w-full text-left text-black transition-colors duration-300 ease-in-out group-hover:text-white">
                 View More
