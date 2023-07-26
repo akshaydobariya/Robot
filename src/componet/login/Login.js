@@ -1,11 +1,10 @@
 import { useFormik } from "formik";
-import React from "react";
-import { loginUser } from "../../State/features/LoginSlice";
+import React, { useEffect } from "react";
+import { clearLoginData, loginUser } from "../../State/features/LoginSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { loginValidationSchema } from "../../validation/validation";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
-import { useEffect } from "react";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -22,12 +21,13 @@ const Login = () => {
       },
     });
 
-    useEffect(()=>{
-      if (loginData.statusCode === 200) {
-        nevigate("/");
-      }
-    },[loginData.statusCode,nevigate]);
-  
+  useEffect(() => {
+    if (loginData && loginData?.statusCode === 200) {
+      dispatch(clearLoginData());
+      nevigate("/");
+    }
+  }, [loginData]);
+
   return (
     <section className="min-h-screen flex items-stretch text-white">
       <div
@@ -54,10 +54,10 @@ const Login = () => {
           <h1 className="font-sans md:font-serif text-5xl mb-5">
             Welcome-Back
           </h1>
-          {loginData.statusCode === 400 && (
+          {loginData?.statusCode === 400 && (
             <p className="text-red-500">{loginData.message}</p>
           )}
-          {loginData.statusCode === 404 && (
+          {loginData?.statusCode === 404 && (
             <p className="text-red-500">{loginData.message}</p>
           )}
           <form

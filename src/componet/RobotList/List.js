@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
+  clearSelectedBlog,
   deleteRobotApi,
   setSelectedBlog,
 } from "../../State/features/RobotSlice";
@@ -119,6 +120,7 @@ const List = () => {
           <div>
             <Link
               to={"/addRobot"}
+              onClick={() => dispatch(clearSelectedBlog())}
               className="bg-blue-800 hover:bg-blue-500 text-white font-bold py-2 px-4 mr-4 rounded"
             >
               Add

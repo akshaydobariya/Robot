@@ -46,7 +46,7 @@ export const loginSlice = createSlice({
   name: "login",
   initialState: {
     isLoading: false,
-    loginData: {},
+    loginData: null,
     registrationData: null,
     isError: false,
     errorMessage: "",
@@ -61,7 +61,7 @@ export const loginSlice = createSlice({
       state.registrationData = null;
     },
     clearLoginData: (state) => {
-      state.loginData = {};
+      state.loginData = null;
     },
   },
   extraReducers: (builder) => {
