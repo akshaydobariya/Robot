@@ -103,19 +103,16 @@ const Navbar = () => {
                 <Link
                   to="/"
                   onClick={closeMobileMenu}
-                  className={`block py-2 pl-3 pr-4 text-white border-gray-100 `}
+                  className="block py-2 pl-3 pr-4 text-white border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-purple-700 lg:p-0 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700"
                 >
                   Home
                 </Link>
               </li>
-              
               <li>
                 <Link
                   to={"/list"}
                   onClick={closeMobileMenu}
-                  className={`block py-2 pl-3 pr-4 text-white border-gray-100 ${
-                    accessToken === null ? "pointer-events-none" : "no-underline hover:bg-gray-50 lg:hover:bg-transparent lg:hover:text-purple-700 lg:p-0 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700"
-                  }`}
+                  className="block py-2 pl-3 pr-4 text-white border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-purple-700 lg:p-0 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700"
                 >
                   Robot List
                 </Link>
@@ -123,9 +120,7 @@ const Navbar = () => {
               <li>
                 <a
                   href="#"
-                  className={`block py-2 pl-3 pr-4 text-white border-gray-100 ${
-                    accessToken === null ? "pointer-events-none" : "hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-purple-700 lg:p-0 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700"
-                  }`}
+                  className="block py-2 pl-3 pr-4 text-white border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-purple-700 lg:p-0 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700"
                 >
                   Features
                 </a>
@@ -133,9 +128,7 @@ const Navbar = () => {
               <li>
                 <a
                   href="#"
-                  className={`block py-2 pl-3 pr-4 text-white border-gray-100 ${
-                    accessToken === null ? "pointer-events-none" : "hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-purple-700 lg:p-0 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700"
-                  }`}
+                  className="block py-2 pl-3 pr-4 text-white border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-purple-700 lg:p-0 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700"
                 >
                   Team
                 </a>
@@ -143,9 +136,7 @@ const Navbar = () => {
               <li>
                 <a
                   href="#"
-                  className={`block py-2 pl-3 pr-4 text-white border-gray-100 ${
-                    accessToken === null ? "pointer-events-none" : "hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-purple-700 lg:p-0 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700"
-                  }`}
+                  className="block py-2 pl-3 pr-4 text-white border-b border-gray-100 hover:bg-gray-50 lg:hover:bg-transparent lg:border-0 lg:hover:text-purple-700 lg:p-0 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700"
                 >
                   Contact
                 </a>

@@ -5,16 +5,18 @@ import {
   setSelectedBlog,
 } from "../../State/features/RobotSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { Edit2 } from "feather-icons-react";
-import { Trash } from "feather-icons-react";
+import { Edit2, Trash } from "feather-icons-react";
 import { fetchRobotData } from "../../State/features/RobotSlice";
 import Swal from "sweetalert2";
+import Login from "../login/Login";
 
 const List = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [productsPerPage] = useState(3);
+  const [sortOrder, setSortOrder] = useState("asc");
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { robotData } = useSelector((state) => state.robots);
@@ -50,6 +52,22 @@ const List = () => {
     dispatch(fetchRobotData());
   }, [robotData]);
 
+  const handleSortByName = () => {
+    setSortOrder((prevSortOrder) => (prevSortOrder === "asc" ? "desc" : "asc"));
+  };
+
+  const sortProducts = (products) => {
+    const sortedProducts = [...products];
+    sortedProducts.sort((a, b) => {
+      const nameA = a.robotName.toLowerCase();
+      const nameB = b.robotName.toLowerCase();
+      if (nameA < nameB) return sortOrder === "asc" ? -1 : 1;
+      if (nameA > nameB) return sortOrder === "asc" ? 1 : -1;
+      return 0;
+    });
+    return sortedProducts;
+  };
+
   const handleSearch = (event) => {
     const query = event.target.value.toLowerCase();
     setSearchQuery(query);
@@ -62,11 +80,12 @@ const List = () => {
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
   const currentProducts = searchQuery ? filteredProducts : products;
-  const currentProductsPage = currentProducts?.slice(
+  const sortedProducts = sortProducts(currentProducts); // Sort the products
+  const currentProductsPage = sortedProducts?.slice(
     indexOfFirstProduct,
     indexOfLastProduct
   );
-  const totalPages = Math.ceil(currentProducts?.length / productsPerPage);
+  const totalPages = Math.ceil(sortedProducts?.length / productsPerPage);
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
@@ -78,7 +97,9 @@ const List = () => {
     navigate("/addRobot");
   };
 
-  return (
+  return accessToken === null ? (
+    <Login />
+  ) : (
     <div className="bg-black min-h-screen text-white">
       <div className="container mx-auto p-4">
         <h2 className="text-2xl font-bold mb-4 flex items-center justify-center">
@@ -106,8 +127,23 @@ const List = () => {
         <table className="w-full text-gray-500 dark:text-gray-400 ml-4">
           <thead>
             <tr>
-              <th className="px-4 py-2 text-left text-white">Sr No</th>
-              <th className="px-4 py-2 text-left text-white">Product Name</th>
+              <th
+                className="px-4 py-2 text-left text-white cursor-pointer"
+                onClick={handleSortByName}
+              >
+                Sr No
+              </th>
+              <th
+                className="px-4 py-2 text-left text-white cursor-pointer"
+                onClick={handleSortByName}
+              >
+                Product Name{" "}
+                {sortOrder === "asc" ? (
+                  <span>&#9650;</span>
+                ) : (
+                  <span>&#9660;</span>
+                )}
+              </th>
               <th className="px-4 py-2 text-left text-white">Action</th>
               <th className="px-4 py-2 text-left text-white">Image</th>
             </tr>

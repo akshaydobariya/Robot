@@ -40,16 +40,8 @@ const Home = () => {
               {robot.robotFeatures}
             </p>
             <Link
-              to={accessToken ? "/view/" + robot.id : "/login"}
+              to={"/view/" + robot.id}
               className="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg "
-              //   accessToken ? "hover:bg-blue-800" : "opacity-100 cursor-not-allowed"
-              // } focus:ring-4 focus:outline-none ${
-              //   accessToken ? "focus:ring-blue-300" : "focus:ring-transparent"
-              // } dark:bg-blue-600 ${
-              //   accessToken ? "dark:hover:bg-blue-700" : "dark:hover:bg-transparent"
-              // } ${
-              //   accessToken ? "dark:focus:ring-blue-800" : "dark:focus:ring-transparent"
-              // }`}
             >
               Read more
               <svg

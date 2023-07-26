@@ -2,17 +2,21 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { getRobotById } from "../../State/features/RobotSlice";
+import Login from "../login/Login";
 
 const View = () => {
   const { Roboid } = useParams();
   const [robotDatas, setRobotData] = useState();
+  const { accessToken } = useSelector((state) => state.login);
   const { robotData } = useSelector((state) => state.robots);
   console.log(robotData);
   useEffect(() => {
     setRobotData(robotData.find((r) => r.id == Roboid));
   }, []);
 
-  return (
+  return accessToken == null ? (
+    <Login />
+  ) : (
     <div className="bg-black text-white min-h-screen flex items-center justify-center">
       <div className="container mx-auto px-4 py-8">
         <div className="flex flex-col md:flex-row items-center">
