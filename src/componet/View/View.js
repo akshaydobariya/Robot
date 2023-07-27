@@ -69,20 +69,24 @@ const View = () => {
             <div className="md:w-1/2">
               <img
                 src={`http://localhost:7584/images/${robotData.imagePath}`}
-                className="w-11/12 h-10/11 border-1 rounded-2xl"
+                className="w-9/12 h-10/11 border-1 rounded-2xl"
               />
             </div>
             <div className="md:w-1/2 md:pl-8">
-              <h1 className="text-3xl font-bold mb-4">{robotData.robotName}</h1>
-              <p className="text-lg mb-2">Location: {robotData.location}</p>
+              <h1 className="text-4xl font-bold mb-4">{robotData.robotName}</h1>
               <p className="text-lg mb-2">
-                Product Version: {robotData.firmwareVersion}
+                <strong>Location:</strong> {robotData.location}
               </p>
               <p className="text-lg mb-2">
-                Product Owner: {robotData.ownerName}
+                <strong>Product Version: </strong>
+                {robotData.firmwareVersion}
               </p>
               <p className="text-lg mb-2">
-                Product Details: {robotData.robotFeatures}
+                <strong>Product Owner:</strong> {robotData.ownerName}
+              </p>
+              <p className="text-lg mb-2">
+                <strong>Product Details: </strong>
+                {robotData.robotFeatures}
               </p>
               <div className="flex-1">
                 <button
