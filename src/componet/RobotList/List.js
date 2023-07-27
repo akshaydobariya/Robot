@@ -56,7 +56,7 @@ const List = () => {
   // Fetch robot data on component mount
   useEffect(() => {
     dispatch(fetchRobotData());
-  }, []);
+  }, [robotData]);
 
   // Function to handle sorting by product name
   const handleSortByName = () => {
