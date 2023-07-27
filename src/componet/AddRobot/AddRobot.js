@@ -127,7 +127,7 @@ const AddRobot = () => {
     <div className="flex justify-center items-center bg-black">
       <div className="w-full max-w-xl">
         <form className="bg-black text-white p-8" onSubmit={handleSubmit}>
-          <h1 className="text-2xl mb-6 font-mono font-bold">
+          <h1 className="text-2xl mb-6 font-mono font-bold flex items-center justify-center">
             {selectedRobotId ? "Update" : "Add"} Robot Details
           </h1>
 
