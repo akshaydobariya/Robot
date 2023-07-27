@@ -1,7 +1,7 @@
 // Import required modules and components
 import { Outlet, createBrowserRouter } from "react-router-dom";
 import "./App.css";
-import React, { useEffect } from "react";
+import React from "react";
 import Footer from "./componet/Footer/Footer";
 import Navbar from "./componet/Navbar/Navbar";
 import Login from "./componet/login/Login";

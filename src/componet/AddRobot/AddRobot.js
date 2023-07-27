@@ -27,7 +27,7 @@ const AddRobot = () => {
 
   // Function to navigate to the previous page
   const handleGoBack = () => {
-    navigate(-1); // Redirect to the previous page
+    navigate("/list"); // Redirect to the previous page
   };
 
   // Form handling with Formik
