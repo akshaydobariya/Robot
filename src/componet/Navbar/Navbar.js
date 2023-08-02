@@ -1,11 +1,16 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+
 import { logout } from "../../State/features/LoginSlice";
+import { navAnimation } from "../../Gsap/gsap";
 
 const Navbar = () => {
   const { accessToken } = useSelector((state) => state.login);
   const dispatch = useDispatch();
+  const logoRef = useRef(null);
+  const userRef = useRef(null);
+  const menuRef = useRef(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   // Function to close the mobile menu
@@ -22,6 +27,9 @@ const Navbar = () => {
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
+  useEffect(() => {
+    navAnimation(logoRef, menuRef, userRef);
+  }, []);
 
   return (
     <>
@@ -29,7 +37,7 @@ const Navbar = () => {
       <div className="sticky top-0 z-10">
         <div className="flex flex-wrap items-center justify-between max-w-screen-xl px-4 mx-auto h-14 bg-black">
           {/* Brand logo and name */}
-          <a className="flex items-center">
+          <a className="flex items-center" ref={logoRef}>
             <img
               src="https://demo.themesberg.com/landwind/images/logo.svg"
               className="h-6 mr-3 sm:h-9"
@@ -40,7 +48,7 @@ const Navbar = () => {
             </span>
           </a>
 
-          <div className="flex items-center lg:order-2">
+          <div className="flex items-center lg:order-2" ref={userRef}>
             {/* Conditional rendering based on accessToken */}
             {accessToken === null ? (
               <>
@@ -113,7 +121,10 @@ const Navbar = () => {
             } bg-black w-full lg:flex lg:w-auto lg:order-1`}
             id="mobile-menu-2"
           >
-            <ul className="flex flex-col mt-4 font-medium lg:flex-row lg:space-x-8 lg:mt-0">
+            <ul
+              className="flex flex-col mt-4 font-medium lg:flex-row lg:space-x-8 lg:mt-0"
+              ref={menuRef}
+            >
               {/* Nav links */}
               <li>
                 <Link
