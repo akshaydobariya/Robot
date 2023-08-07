@@ -2,12 +2,10 @@ import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import Login from "../login/Login";
-import {
-  deleteRobotApi,
-  setSelectedBlog,
-} from "../../State/features/RobotSlice";
+import { setSelectedBlog } from "../../State/features/RobotSlice";
 import Swal from "sweetalert2";
 import { card } from "../../Gsap/gsap";
+import { deleteRobotApi } from "../../Apicall/api";
 
 const View = () => {
   const navigate = useNavigate();
@@ -55,7 +53,7 @@ const View = () => {
 
   useEffect(() => {
     // Find the robot data by ID from allRobotData and set it to robotData
-    setRobotData(allRobotData.find((r) => r.id == Roboid));
+    setRobotData(allRobotData.find((r) => r.id === Roboid));
   }, [Roboid, allRobotData]); // Add Roboid and allRobotData to the dependency array
 
   // Function to handle product edit
