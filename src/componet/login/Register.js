@@ -1,12 +1,11 @@
 import { useFormik } from "formik";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  clearRegisterData,
-  registerUser,
-} from "../../State/features/LoginSlice";
+import { clearRegisterData } from "../../State/features/LoginSlice";
 import { registerValidationSchema } from "../../validation/validation";
 import { useNavigate, Link } from "react-router-dom";
+import { registerUser } from "../../Apicall/api";
+import InputComponrnt from "../../Common/InputComponrnt";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -32,9 +31,8 @@ const Register = () => {
     if (registrationData?.statusCode === 200) {
       navigate("/login");
       dispatch(clearRegisterData());
-      console.log(registrationData);
     }
-  }, [registrationData]);
+  }, [registrationData, navigate, dispatch]);
 
   return (
     <section className="min-h-screen flex items-stretch text-white">
@@ -124,61 +122,46 @@ const Register = () => {
               </p>
             </div>
             <div className="relative mb-6" data-te-input-wrapper-init>
-              <input
+              <InputComponrnt
                 type="text"
-                className="peer block min-h-[auto] w-full rounded border-0 bg-white-100/50 text-black px-3 py-[0.32rem] leading-[2.15] outline-none "
                 id="exampleFormControlInput3"
-                placeholder="Enter Username"
                 name="username"
                 value={values.username}
+                placeholder="Enter Username"
                 onBlur={handleBlur}
                 onChange={handleChange}
+                className="register"
+                error={errors.username}
+                touch={touched.username}
               />
-              <div className="text-black">
-                {errors.username && touched.username && (
-                  <p className="text-sm text-red-600 override-color">
-                    {errors.username}
-                  </p>
-                )}
-              </div>
             </div>
             <div className="relative mb-6" data-te-input-wrapper-init>
-              <input
+              <InputComponrnt
                 type="text"
-                className="peer block min-h-[auto] w-full rounded border-0 bg-white-100/50 text-black px-3 py-[0.32rem] leading-[2.15] outline-none "
                 id="exampleFormControlInput2"
-                placeholder="Email address"
                 name="email"
                 value={values.email}
+                placeholder="Email address"
                 onBlur={handleBlur}
                 onChange={handleChange}
+                className="register"
+                error={errors.email}
+                touch={touched.email}
               />
-              <div className="text-black">
-                {errors.email && touched.email && (
-                  <p className="text-sm text-red-600 override-color">
-                    {errors.email}
-                  </p>
-                )}
-              </div>
             </div>
             <div className="relative mb-6" data-te-input-wrapper-init>
-              <input
+              <InputComponrnt
                 type="password"
-                className="peer block min-h-[auto] w-full bg-white text-black rounded border-0 bg-transparent px-3 py-[0.32rem] leading-[2.15] outline-none"
                 id="exampleFormControlInput22"
-                placeholder="Password"
                 name="password"
                 value={values.password}
-                onChange={handleChange}
+                placeholder="Enter Password"
                 onBlur={handleBlur}
+                onChange={handleChange}
+                className="register"
+                error={errors.password}
+                touch={touched.password}
               />
-              <div className="text-black">
-                {errors.password && touched.password && (
-                  <p className="text-sm text-red-600 override-color">
-                    {errors.password}
-                  </p>
-                )}
-              </div>
             </div>
             <div className="mb-6 flex items-center justify-between">
               <div className="mb-[0.125rem] block min-h-[1.5rem] pl-[1.5rem]">

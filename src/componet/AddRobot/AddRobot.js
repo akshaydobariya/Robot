@@ -4,13 +4,15 @@ import { useFormik } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 import { addRobotValidationSchema } from "../../validation/validation";
 import {
-  addRobotApi,
   clearAddRobotdata,
   clearUpdateRobotdData,
-  updateRobot,
 } from "../../State/features/RobotSlice";
+
 import Swal from "sweetalert2";
-import Login from "../login/Login";
+import { addRobotApi, updateRobot } from "../../Apicall/api";
+import LableComponent from "../../Common/LableComponent";
+import InputComponrnt from "../../Common/InputComponrnt";
+import TextareaComponent from "../../Common/TextareaComponent";
 
 const AddRobot = () => {
   // Redux setup
@@ -67,6 +69,7 @@ const AddRobot = () => {
         formData.append("Id", selectedRobotId);
         dispatch(updateRobot({ formData, accessToken }));
       } else {
+        console.log(values.robotName);
         // If no robot is selected (adding mode)
         dispatch(addRobotApi({ formData, accessToken }));
         if (addRobot === "Robot Added Successfully") {
@@ -133,63 +136,40 @@ const AddRobot = () => {
 
           {/* Robot Name */}
           <div className="mb-4">
-            <label
-              htmlFor="robotName"
-              className="block mb-2 text-base font-bold"
-            >
-              Robot Name
-            </label>
-            <input
+            <LableComponent name=" Robot Name" />
+            <InputComponrnt
               type="text"
               id="robotName"
               name="robotName"
               value={values.robotName}
+              placeholder="Enter Robot Name"
               onBlur={handleBlur}
               onChange={handleChange}
-              className="w-full py-2 px-4 rounded bg-transparent border-white border-2 focus:border-blue-500"
-              placeholder="Enter Robot Name"
+              error={errors.robotName}
+              touch={touched.robotName}
             />
-            <div className="text-black">
-              {errors.robotName && touched.robotName && (
-                <p className="text-sm text-red-600">{errors.robotName}</p>
-              )}
-            </div>
           </div>
 
           {/* Owner Name */}
           <div className="mb-4">
-            <label
-              htmlFor="ownerName"
-              className="block mb-2 text-base font-bold"
-            >
-              Owner Name
-            </label>
-            <input
+            <LableComponent name="Owner Name" />
+            <InputComponrnt
               type="text"
               id="ownerName"
               name="ownerName"
-              value={values.ownerName}
+              value={values.robotName}
+              placeholder="Enter Owner Name"
               onBlur={handleBlur}
               onChange={handleChange}
-              className="w-full py-2 px-4 rounded bg-transparent border-white border-2 focus:border-blue-500"
-              placeholder="Enter Owner Name"
+              error={errors.ownerName}
+              touch={touched.ownerName}
             />
-            <div className="text-black">
-              {errors.ownerName && touched.ownerName && (
-                <p className="text-sm text-red-600 ">{errors.ownerName}</p>
-              )}
-            </div>
           </div>
 
           {/* Robot Feature */}
           <div className="mb-4">
-            <label
-              htmlFor="robotFeature"
-              className="block mb-2 text-base font-bold"
-            >
-              Robot Feature
-            </label>
-            <textarea
+            <LableComponent name=" Robot Feature" />
+            {/* <textarea
               id="robotFeature"
               name="robotFeature"
               value={values.robotFeature}
@@ -198,66 +178,54 @@ const AddRobot = () => {
               rows="3"
               className="w-full py-2 px-4 rounded bg-transparent border-white border-2 focus:border-blue-500"
               placeholder="Enter Robot Feature"
-            ></textarea>
-            <div className="text-black">
-              {errors.robotFeature && touched.robotFeature && (
-                <p className="text-sm text-red-600 ">{errors.robotFeature}</p>
-              )}
-            </div>
+            ></textarea> */}
+            <TextareaComponent
+              id="robotFeature"
+              name="robotFeature"
+              value={values.robotFeature}
+              onBlur={handleBlur}
+              onChange={handleChange}
+              error={errors.ownerName}
+              touch={touched.ownerName}
+              placeholder="Enter Robot Feature"
+            />
           </div>
 
           {/* Location */}
           <div className="mb-4">
-            <label
-              htmlFor="location"
-              className="block mb-2 text-base font-bold"
-            >
-              Location
-            </label>
-            <input
+            <LableComponent name="Location" />
+            <InputComponrnt
               type="text"
               id="location"
               name="location"
               value={values.location}
+              placeholder="Enter Location"
               onBlur={handleBlur}
               onChange={handleChange}
-              className="w-full py-2 px-4 rounded bg-transparent border-white border-2 focus:border-blue-500"
-              placeholder="Enter Location"
+              error={errors.location}
+              touch={touched.location}
             />
-            <div className="text-black">
-              {errors.location && touched.location && (
-                <p className="text-sm text-red-600 ">{errors.location}</p>
-              )}
-            </div>
           </div>
 
           {/* Version */}
           <div className="mb-4">
-            <label htmlFor="version" className="block mb-2 text-base font-bold">
-              Version
-            </label>
-            <input
+            <LableComponent name="Version" />
+            <InputComponrnt
               type="text"
               id="version"
               name="version"
               value={values.version}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              className="w-full py-2 px-4 rounded bg-transparent border-white border-2 focus:border-blue-500"
               placeholder="Enter Version"
+              onBlur={handleBlur}
+              onChange={handleChange}
+              error={errors.version}
+              touch={touched.version}
             />
-            <div className="text-black">
-              {errors.version && touched.version && (
-                <p className="text-sm text-red-600 ">{errors.version}</p>
-              )}
-            </div>
           </div>
 
           {/* Image */}
           <div className="mb-4">
-            <label className="block mb-2 text-base font-bold" htmlFor="image">
-              Upload Image
-            </label>
+            <LableComponent name="Upload Image" />
             <input
               type="file"
               id="image"
@@ -266,11 +234,13 @@ const AddRobot = () => {
               onChange={handleFileChange}
               className="w-full p-2 bg-transparent border-b-2 border-white border-2 focus:outline-none"
             />
-            <div className="text-black">
-              {errors.image && touched.image && (
-                <p className="text-sm text-red-600 ">{errors.image}</p>
-              )}
-            </div>
+          </div>
+          <div className="text-black">
+            {errors.image && touched.image && (
+              <p className="text-sm text-red-600 override-color">
+                {errors.image}
+              </p>
+            )}
           </div>
 
           {/* Submit Button */}
