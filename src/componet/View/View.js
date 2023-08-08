@@ -1,16 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import Login from "../login/Login";
-import {
-  deleteRobotApi,
-  setSelectedBlog,
-} from "../../State/features/RobotSlice";
+import { setSelectedBlog } from "../../State/features/RobotSlice";
 import Swal from "sweetalert2";
+import { card } from "../../Gsap/gsap";
+import { deleteRobotApi } from "../../ApiCall/Api";
 
 const View = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const cardRef = useRef(null);
+
   const { Roboid } = useParams();
   const [robotData, setRobotData] = useState(null); // Initialize with null
   const { accessToken } = useSelector((state) => state.login);
@@ -46,6 +47,9 @@ const View = () => {
       }
     });
   };
+  useEffect(() => {
+    card(cardRef);
+  });
 
   useEffect(() => {
     // Find the robot data by ID from allRobotData and set it to robotData
@@ -69,7 +73,8 @@ const View = () => {
             <div className="md:w-1/2">
               <img
                 src={`http://localhost:7584/images/${robotData.imagePath}`}
-                className="w-9/12 h-10/11 border-1 rounded-2xl"
+                className="w-9/12 h-96 border-1 rounded-2xl "
+                ref={cardRef}
               />
             </div>
             <div className="md:w-1/2 md:pl-8">

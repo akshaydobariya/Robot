@@ -1,18 +1,22 @@
 // Import necessary dependencies and modules
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { fetchRobotData } from "../../State/features/RobotSlice";
+import {} from "../../State/features/RobotSlice";
 import Shimmer from "../Shimmer/shimmer";
+import { card } from "../../Gsap/gsap";
+import { fetchRobotData } from "../../ApiCall/Api";
 
 const Home = () => {
   // Accessing data from the Redux store
   const { robotData, isLoading } = useSelector((state) => state.robots);
   const dispatch = useDispatch();
+  const cardRef = useRef(null);
 
   // Fetch robot data from the API when the component mounts
   useEffect(() => {
     dispatch(fetchRobotData());
+    card(cardRef);
   }, []);
 
   // Display shimmer effect while data is being fetched
@@ -27,6 +31,7 @@ const Home = () => {
         <div
           key={robot.Id}
           className="max-w-sm border-x-8 border-gray-200 rounded-3xl dark:bg-white-800 dark:border-gray-700 text-white mt-2 ml-2 mb-2"
+          ref={cardRef}
         >
           <a href="#">
             <img

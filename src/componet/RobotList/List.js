@@ -2,14 +2,14 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
   clearSelectedBlog,
-  deleteRobotApi,
   setSelectedBlog,
 } from "../../State/features/RobotSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { Edit2, Trash } from "feather-icons-react";
-import { fetchRobotData } from "../../State/features/RobotSlice";
+import {} from "../../State/features/RobotSlice";
 import Swal from "sweetalert2";
 import Login from "../login/Login";
+import { deleteRobotApi, fetchRobotData } from "../../ApiCall/Api";
 
 const List = () => {
   const [searchQuery, setSearchQuery] = useState("");
