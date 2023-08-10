@@ -2,10 +2,9 @@
 import React, { useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import {} from "../../State/features/RobotSlice";
+import { fetchRobotData } from "../../State/features/RobotSlice";
 import Shimmer from "../Shimmer/shimmer";
 import { card } from "../../Gsap/gsap";
-import { fetchRobotData } from "../../ApiCall/Api";
 
 const Home = () => {
   // Accessing data from the Redux store

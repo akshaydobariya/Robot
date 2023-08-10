@@ -1,7 +1,48 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
 const API_BASE_URL = "http://localhost:7584/api";
+// Async thunk for user registration
+export const registerUser = createAsyncThunk(
+  "login/registerUser", // Action type prefix added
+  async (registrationData) => {
+    try {
+      const response = await axios.post(
+        `${API_BASE_URL}/User/register`,
+        registrationData
+      );
+      return response.data;
+    } catch (error) {
+      if (error.response) {
+        const { StatusCode, Message } = error.response.registrationData;
+        throw new Error(`Registration failed: ${StatusCode} - ${Message}`);
+      } else {
+        throw new Error("Registration failed: Network error");
+      }
+    }
+  }
+);
+
+// Async thunk for user login
+export const loginUser = createAsyncThunk(
+  "login/loginUser", // Action type prefix added
+  async (loginData) => {
+    try {
+      const response = await axios.post(`${API_BASE_URL}/User/authenticate`, {
+        username: loginData.username,
+        password: loginData.password,
+      });
+      return response.data;
+    } catch (error) {
+      if (error.response) {
+        const { StatusCode, Message } = error.response.loginData;
+        throw new Error(`Login failed: ${StatusCode} - ${Message}`);
+      } else {
+        throw new Error("Login failed: Network error");
+      }
+    }
+  }
+);
 
 // Async thunk for adding a new robot
 export const addRobotApi = createAsyncThunk("robot/addRobot", async (data) => {
@@ -95,86 +136,13 @@ export const updateRobot = createAsyncThunk(
   }
 );
 
-const robotSlice = createSlice({
-  name: "robot",
-  initialState: {
-    isLoading: false,
-    addRobotdata: null,
-    addRobot: null,
-    deleteRobot: null,
-    robotData: null,
-    isError: false,
-    selectedBlog: null,
-    updateRobotdData: null,
-  },
-  reducers: {
-    setSelectedBlog: (state, action) => {
-      state.selectedBlog = action.payload;
-    },
-    clearSelectedBlog: (state) => {
-      state.selectedBlog = null;
-    },
-    clearAddRobotdata: (state) => {
-      state.addRobot = null;
-    },
-    clearUpdateRobotdData: (state) => {
-      state.updateRobotdData = null;
-    },
-  },
-  extraReducers: (builder) => {
-    builder
-      .addCase(addRobotApi.pending, (state) => {
-        state.isLoading = true;
-      })
-      .addCase(addRobotApi.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.addRobot = action.payload;
-      })
-      .addCase(addRobotApi.rejected, (state, action) => {
-        state.isLoading = false;
-        state.isError = true;
-      })
-      .addCase(fetchRobotData.pending, (state) => {
-        state.isLoading = true;
-      })
-      .addCase(fetchRobotData.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.robotData = action.payload;
-      })
-      .addCase(fetchRobotData.rejected, (state, action) => {
-        state.isLoading = false;
-        state.isError = true;
-      })
-      .addCase(deleteRobotApi.pending, (state) => {
-        state.isLoading = true;
-      })
-      .addCase(deleteRobotApi.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.deleteRobot = action.payload;
-      })
-      .addCase(deleteRobotApi.rejected, (state, action) => {
-        state.isLoading = false;
-        state.isError = true;
-      })
-      .addCase(updateRobot.pending, (state) => {
-        state.isLoading = true;
-      })
-      .addCase(updateRobot.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.updateRobotdData = action.payload;
-      })
-      .addCase(updateRobot.rejected, (state, action) => {
-        state.isLoading = false;
-        state.isError = true;
-      });
-  },
+export const Country = createAsyncThunk("country", async () => {
+  try {
+    const response = await axios.get(
+      "https://pkgstore.datahub.io/core/world-cities/world-cities_json/data/5b3dd46ad10990bca47b04b4739a02ba/world-cities_json.json"
+    );
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
 });
-
-export const {
-  setSelectedBlog,
-  clearSelectedBlog,
-  clearAddRobotdata,
-  clearUpdateRobotdData,
-} = robotSlice.actions;
-
-export default robotSlice.reducer;

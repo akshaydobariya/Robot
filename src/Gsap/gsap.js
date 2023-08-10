@@ -22,3 +22,11 @@ export const card = (a) => {
     stagger: 0.2,
   });
 };
+
+export const name = (a) => {
+  tl.from(a.current, {
+    opacity: 1,
+    y: -100,
+    duration: 0.8,
+  });
+};

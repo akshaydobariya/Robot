@@ -4,12 +4,5 @@ import RobotSlice from "../features/RobotSlice";
 import CountrySlice from "../features/CountrySlice";
 
 export const store = configureStore({
-  reducer: {
-    login: loginSliceReducer,
-    robots: RobotSlice,
-    country: CountrySlice,
-  },
-  middleware: getDefaultMiddleware({
-    serializableCheck: false,
-  }),
+  reducer: { login: loginSliceReducer, robots: RobotSlice },
 });

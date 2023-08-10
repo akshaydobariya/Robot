@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { Country } from "../../ApiCall/Api";
+import { Country } from "../../ApiCall/api";
 
 const CountrySlice = createSlice({
   name: "Country",
@@ -22,5 +22,3 @@ const CountrySlice = createSlice({
       });
   },
 });
-
-export default CountrySlice.reducer;

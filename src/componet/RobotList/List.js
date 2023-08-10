@@ -9,7 +9,10 @@ import { Edit2, Trash } from "feather-icons-react";
 import {} from "../../State/features/RobotSlice";
 import Swal from "sweetalert2";
 import Login from "../login/Login";
-import { deleteRobotApi, fetchRobotData } from "../../ApiCall/Api";
+
+import { name } from "../../Gsap/gsap";
+import { useRef } from "react";
+import { deleteRobotApi, fetchRobotData } from "../../ApiCall/api";
 
 const List = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -17,7 +20,7 @@ const List = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [productsPerPage] = useState(3);
   const [sortOrder, setSortOrder] = useState("asc");
-
+  const nameRef = useRef(null);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { robotData } = useSelector((state) => state.robots);
@@ -57,7 +60,9 @@ const List = () => {
   useEffect(() => {
     dispatch(fetchRobotData());
   }, [robotData]);
-
+  useEffect(() => {
+    name(nameRef);
+  }, []);
   // Function to handle sorting by product name
   const handleSortByName = () => {
     setSortOrder((prevSortOrder) => (prevSortOrder === "asc" ? "desc" : "asc"));
@@ -117,7 +122,10 @@ const List = () => {
     // If user is logged in, show the product list
     <div className="bg-black min-h-screen text-white">
       <div className="container mx-auto p-4">
-        <h2 className="text-2xl font-bold mb-4 flex items-center justify-center">
+        <h2
+          className="text-2xl font-bold mb-4 flex items-center justify-center"
+          ref={nameRef}
+        >
           Product List
         </h2>
         <div className="flex justify-between mb-4 sm:mb-4">

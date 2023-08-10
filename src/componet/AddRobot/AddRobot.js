@@ -14,8 +14,8 @@ import {
 } from "../../State/features/RobotSlice";
 
 import Swal from "sweetalert2";
-
-import { Country, addRobotApi, updateRobot } from "../../ApiCall/Api";
+import Login from "../login/Login";
+import { addRobotApi, updateRobot, Country } from "../../ApiCall/api";
 
 const AddRobot = () => {
   // Redux setup
@@ -151,6 +151,7 @@ const AddRobot = () => {
 
         dispatch(updateRobot({ formData, accessToken }));
       } else {
+        console.log(values.robotName);
         // If no robot is selected (adding mode)
 
         console.log("Working");
@@ -251,18 +252,17 @@ const AddRobot = () => {
             >
               Robot Name
             </label>
-
             <input
               type="text"
               id="robotName"
               name="robotName"
               value={values.robotName}
+              placeholder="Enter Robot Name"
               onBlur={handleBlur}
               onChange={handleChange}
-              className="w-full py-2 px-4 rounded bg-transparent border-white border-2 focus:border-blue-500"
-              placeholder="Enter Robot Name"
+              error={errors.robotName}
+              touch={touched.robotName}
             />
-
             <div className="text-black">
               {errors.robotName && touched.robotName && (
                 <p className="text-sm text-red-600">{errors.robotName}</p>
@@ -279,18 +279,17 @@ const AddRobot = () => {
             >
               Owner Name
             </label>
-
             <input
               type="text"
               id="ownerName"
               name="ownerName"
-              value={values.ownerName}
+              value={values.robotName}
+              placeholder="Enter Owner Name"
               onBlur={handleBlur}
               onChange={handleChange}
-              className="w-full py-2 px-4 rounded bg-transparent border-white border-2 focus:border-blue-500"
-              placeholder="Enter Owner Name"
+              error={errors.ownerName}
+              touch={touched.ownerName}
             />
-
             <div className="text-black">
               {errors.ownerName && touched.ownerName && (
                 <p className="text-sm text-red-600 ">{errors.ownerName}</p>
@@ -307,7 +306,6 @@ const AddRobot = () => {
             >
               Robot Feature
             </label>
-
             <textarea
               id="robotFeature"
               name="robotFeature"
@@ -318,7 +316,6 @@ const AddRobot = () => {
               className="w-full py-2 px-4 rounded bg-transparent border-white border-2 focus:border-blue-500"
               placeholder="Enter Robot Feature"
             ></textarea>
-
             <div className="text-black">
               {errors.robotFeature && touched.robotFeature && (
                 <p className="text-sm text-red-600 ">{errors.robotFeature}</p>
@@ -326,89 +323,30 @@ const AddRobot = () => {
             </div>
           </div>
 
-          {/* Choose a Country */}
-
-          <label
-            htmlFor="countrySelect"
-            className="block mb-2 text-base font-bold"
-          >
-            Choose a Country
-          </label>
-
-          <select
-            id="countrySelect"
-            name="country"
-            value={selectedCountry}
-            onChange={(event) => handlerstate(event)}
-            onBlur={handleBlur}
-            className="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-r-lg border-l-gray-100 dark:border-l-gray-700 border-l-2 focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          >
-            <option defaultValue value="">
-              Choose a country
-            </option>
-
-            {country?.map((Item, index) => (
-              <option key={index} value={Item}>
-                {Item}
-              </option>
-            ))}
-          </select>
-
-          {/* Choose a State */}
-
-          <label
-            htmlFor="stateSelect"
-            className="block mb-2 text-base font-bold"
-          >
-            Choose a State
-          </label>
-
-          <select
-            id="stateSelect"
-            name="state"
-            value={selectedState}
-            onChange={(event) => handlercity(event)}
-            onBlur={handleBlur}
-            className="w-full bg-black border border-white-300 text-white-900 text-sm rounded-r-lg border-l-white-100 dark:border-l-white-700 border-l-2 focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          >
-            <option defaultValue value="">
-              Choose a state
-            </option>
-
-            {countryState?.map((stateItem, index) => (
-              <option key={index} value={stateItem}>
-                {stateItem}
-              </option>
-            ))}
-          </select>
-
-          {/* Choose a City */}
-
-          <label
-            htmlFor="citySelect"
-            className="block mb-2 text-base font-bold"
-          >
-            Choose a City
-          </label>
-
-          <select
-            id="citySelect"
-            name="city"
-            value={selectedCity}
-            onChange={(event) => setSelectedCity(event.target.value)}
-            onBlur={handleBlur}
-            className="w-full bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-r-lg border-l-gray-100 dark:border-l-gray-700 border-l-2 focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          >
-            <option defaultValue value="">
-              Choose a city
-            </option>
-
-            {cities?.map((cityItem, index) => (
-              <option key={index} value={cityItem.name}>
-                {cityItem.name}
-              </option>
-            ))}
-          </select>
+          {/* Location */}
+          <div className="mb-4">
+            <label
+              htmlFor="location"
+              className="block mb-2 text-base font-bold"
+            >
+              Location
+            </label>
+            <input
+              type="text"
+              id="location"
+              name="location"
+              value={values.location}
+              onBlur={handleBlur}
+              onChange={handleChange}
+              className="w-full py-2 px-4 rounded bg-transparent border-white border-2 focus:border-blue-500"
+              placeholder="Enter Location"
+            />
+            <div className="text-black">
+              {errors.location && touched.location && (
+                <p className="text-sm text-red-600 ">{errors.location}</p>
+              )}
+            </div>
+          </div>
 
           {/* Version */}
 
@@ -416,18 +354,17 @@ const AddRobot = () => {
             <label htmlFor="version" className="block mb-2 text-base font-bold">
               Version
             </label>
-
             <input
               type="text"
               id="version"
               name="version"
               value={values.version}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              className="w-full py-2 px-4 rounded bg-transparent border-white border-2 focus:border-blue-500"
               placeholder="Enter Version"
+              onBlur={handleBlur}
+              onChange={handleChange}
+              error={errors.version}
+              touch={touched.version}
             />
-
             <div className="text-black">
               {errors.version && touched.version && (
                 <p className="text-sm text-red-600 ">{errors.version}</p>
@@ -441,7 +378,6 @@ const AddRobot = () => {
             <label className="block mb-2 text-base font-bold" htmlFor="image">
               Upload Image
             </label>
-
             <input
               type="file"
               id="image"
@@ -450,7 +386,6 @@ const AddRobot = () => {
               onChange={handleFileChange}
               className="w-full p-2 bg-transparent border-b-2 border-white border-2 focus:outline-none"
             />
-
             <div className="text-black">
               {errors.image && touched.image && (
                 <p className="text-sm text-red-600 ">{errors.image}</p>

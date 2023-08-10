@@ -1,9 +1,11 @@
 import { useFormik } from "formik";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { clearLoginData, loginUser } from "../../State/features/LoginSlice";
+import { clearLoginData } from "../../State/features/LoginSlice";
 import { loginValidationSchema } from "../../validation/validation";
 import { useNavigate, Link } from "react-router-dom";
+import { loginUser } from "../../ApiCall/api";
+import InputComponrnt from "../../Common/InputComponrnt";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -27,7 +29,6 @@ const Login = () => {
       navigate("/");
     }
   }, [loginData]);
-
   return (
     <section className="min-h-screen flex items-stretch text-white">
       <div
@@ -54,12 +55,7 @@ const Login = () => {
           <h1 className="font-sans md:font-serif text-5xl mb-5">
             Welcome-Back
           </h1>
-          {loginData?.statusCode === 400 && (
-            <p className="text-red-500">{loginData.message}</p>
-          )}
-          {loginData?.statusCode === 404 && (
-            <p className="text-red-500">{loginData.message}</p>
-          )}
+          {renderErrorMessage()}
           <form
             className="sm:w-2/3 w-full px-4 lg:px-0 mx-auto"
             onSubmit={handleSubmit}
@@ -121,40 +117,32 @@ const Login = () => {
               </p>
             </div>
             <div className="relative mb-6" data-te-input-wrapper-init>
-              <input
+              <InputComponrnt
                 type="text"
-                className="peer block min-h-[auto] w-full rounded border-0 bg-white text-black px-3 py-[0.32rem] leading-[2.15] outline-none "
-                id="exampleFormControlInput2"
-                placeholder="UserName"
+                id="exampleFormControlInput3"
                 name="username"
                 value={values.username}
+                placeholder="Enter Username"
                 onBlur={handleBlur}
                 onChange={handleChange}
+                className="register"
+                error={errors.username}
+                touch={touched.username}
               />
-              <div className="text-black">
-                {errors.username && touched.username && (
-                  <p className="text-sm text-red-600 ">{errors.username}</p>
-                )}
-              </div>
             </div>
             <div className="relative mb-6" data-te-input-wrapper-init>
-              <input
+              <InputComponrnt
                 type="password"
-                className="peer block min-h-[auto] w-full bg-white text-black rounded border-0 bg-transparent px-3 py-[0.32rem] leading-[2.15] outline-none "
                 id="exampleFormControlInput22"
-                placeholder="Password"
                 name="password"
                 value={values.password}
-                onChange={handleChange}
+                placeholder="Enter Password"
                 onBlur={handleBlur}
+                onChange={handleChange}
+                className="register"
+                error={errors.password}
+                touch={touched.password}
               />
-              <div className="text-black">
-                {errors.password && touched.password && (
-                  <p className="text-sm text-red-600 override-color">
-                    {errors.password}
-                  </p>
-                )}
-              </div>
             </div>
             <div className="mb-6 flex items-center justify-between">
               <div className="mb-[0.125rem] block min-h-[1.5rem] pl-[1.5rem]">
